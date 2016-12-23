@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <import resource="alert-db-data-access-bean.xml"/>
+
+       <!--<bean id="emailSender" class="com.dfn.alerts.impl.email.EmailSender">
+              <constructor-arg name="SMTPHost" value="${dfn.mail.smtp.host}"/>
+              <constructor-arg name="SMTPPort" value="${dfn.mail.smtp.port}"/>
+              <constructor-arg name="SMTPPort2" value="${dfn.mail.smtp.2.port}"/>
+              <constructor-arg name="SMTPUser" value="${dfn.mail.smtp.user}"/>
+              <constructor-arg name="SMTPPassword" value="${dfn.mail.smtp.password}"/>
+              <constructor-arg name="charset" value="${dfn.mail.smtp.charset}"/>
+              <constructor-arg name="contentType" value="${dfn.mail.smtp.contentType}"/>
+              <constructor-arg name="protocol" value="${dfn.mail.protocol}"/>
+              <constructor-arg name="auth" value="${dfn.mail.auth}"/>
+              <property name="emailNotificationDataAccess" ref="emailDataAccess"/>
+       </bean>-->
+
+       <bean id="emailSender" class="com.dfn.alerts.impl.email.EmailSender">
+              <constructor-arg name="SMTPHost" value="smtp.sendgrid.net"/>
+              <constructor-arg name="SMTPPort" value="2525"/>
+              <constructor-arg name="SMTPPort2" value="587"/>
+              <constructor-arg name="SMTPUser" value="AMS_UAT_SendGrid"/>
+              <constructor-arg name="SMTPPassword" value="S3nd6r!DAMSU@T"/>
+              <constructor-arg name="charset" value="utf-8"/>
+              <constructor-arg name="contentType" value="text/html; charset=utf-8"/>
+              <constructor-arg name="protocol" value="smtp"/>
+              <constructor-arg name="auth" value="true"/>
+              <property name="emailNotificationDataAccess" ref="emailDataAccess"/>
+       </bean>
+
+       <bean name="emailDataAccess" class="com.dfn.alerts.dao.impl.email.EmailDataAccess">
+              <property name="hibernateDAOFactory" ref="hibernateDaoFactory"/>
+       </bean>
+</beans>

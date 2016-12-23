@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--Start define data access layer's beans-->
+
+    <!--<bean name="insiderTransactionDataAccess" class="com.dfn.alerts.dataaccess.impl.InsiderTransactionDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="insiderTransactionCacheConfig"/>
+    </bean>
+
+    <bean name="fairValuesDataAccess" class="com.dfn.alerts.dataaccess.impl.FairValuesDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="fairValuesCacheConfig"/>
+    </bean>
+
+    <bean name="individualDataAccess" class="com.dfn.alerts.dataaccess.impl.IndividualDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="cacheConfigKey" value="individualCacheConfig"/>
+    </bean>
+
+    <bean name="individualSearchDataAccess" class="com.dfn.alerts.dataaccess.impl.IndividualSearchDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="individualCacheConfig"/>
+    </bean>
+
+    <bean name="calendarEventsDataAccess" class="com.dfn.alerts.dataaccess.impl.CalendarEventsDataAccess">
+        &lt;!&ndash;<constructor-arg ref="cacheConfig"/>&ndash;&gt;
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="calendarEventsCacheConfig"/>
+    </bean>
+
+    <bean name="corporateActionsDataAccess" class="com.dfn.alerts.dataaccess.impl.CorporateActionsDataAccess">
+        &lt;!&ndash;<constructor-arg ref="cacheConfig"/>&ndash;&gt;
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="corporateActionsCacheConfig"/>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+    </bean>
+
+    <bean name="financialDataAccess" class="com.dfn.alerts.dataaccess.impl.financial.FinancialDataAccess">
+        &lt;!&ndash;<constructor-arg ref="cacheConfig"/>&ndash;&gt;
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="financialCacheConfig"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="financialPageCacheConfigKey" value="financialPageCacheConfig" />
+    </bean>
+
+    <bean name="financialAverageRatioDataAccess" class="com.dfn.alerts.dataaccess.impl.financial.FinancialAverageRatioDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="avgRatioCacheConfig"/>
+    </bean>
+
+    <bean name="externalDataAccess" class="com.dfn.alerts.dataaccess.impl.ExternalDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="mixHttpServer" ref="zohoServer"/>
+    </bean>
+
+    <bean name="contactUsDataAccess" class="com.dfn.alerts.dataaccess.impl.ContactUsDataAccess">
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+    </bean>
+
+    <bean name="estimatesDataAccess" class="com.dfn.alerts.dataaccess.impl.financial.EstimatesDataAccess">
+        &lt;!&ndash;<constructor-arg ref="cacheConfig"/>&ndash;&gt;
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+    </bean>
+
+    <bean name="symbolSearchDataAccess" class="com.dfn.alerts.dataaccess.impl.SymbolSearchDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+    </bean>
+
+    <bean name="advancedSearchDataAccess" class="com.dfn.alerts.dataaccess.impl.AdvancedSearchDataAccess">
+        <property name="symbolSearchDataAccess" ref="symbolSearchDataAccess"/>
+        <property name="individualDataAccess" ref="individualDataAccess"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="advancedSearchCacheConfig"/>
+    </bean>
+
+    <bean name="newsDetailsDataAccess" class="com.dfn.alerts.dataaccess.impl.NewsDetailsDataAccess">
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="multipleSocketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="newsDetailsCacheConfig"/>
+        <property name="requestGenerator" ref="httpRequestGenerator" />
+    </bean>
+
+    <bean name="companySearchDataAccess" class="com.dfn.alerts.dataaccess.impl.CompanySearchDataAccess">
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="companySearchCacheConfig"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean name="announcementDetailsDataAccess" class="com.dfn.alerts.dataaccess.impl.AnnouncementDetailsDataAccess">
+        <property name="cacheEnabled" value="true"/>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="newsDetailsCacheConfig"/>
+    </bean>
+
+    <bean name="announcementUpdator" class="com.dfn.alerts.dataaccess.impl.AnnouncementUpdateDAOImpl">
+        <property name="dataAccess" ref="clusteredAnnouncementDataAccess"/>
+        <property name="systemDataAccess" ref="systemDataAccess"/>
+        <property name="imdbAnnouncementUpdateDAO" ref="imdbAnnouncementDAO"/>
+        <property name="jdbcAnnouncementUpdateDAO" ref="jdbcAnnouncementDAO"/>
+        <property name="maxAnnCount" value="${application.announce.max.count}"/>
+    </bean>
+
+    <bean name="clusteredAnnouncementDataAccess" class="com.dfn.alerts.dataaccess.impl.ClusteredAnnouncementDataAccess">
+        <property name="jdbcAnnouncementDao" ref="jdbcAnnouncementDAO"/>
+        <property name="imdbAnnouncementDao" ref="imdbAnnouncementDAO"/>
+        <property name="solrAnnouncementDao" ref="solrAnnouncementDAO"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="defaultMaxSeqId" value="${application.announce.max.seq}"/>
+        <property name="defaultMinAnnDate" value="${application.announce.min.date}"/>
+        <property name="cacheConfigKey" value="announcementCacheConfig"/>
+        <property name="useSolr" value="${system.announcementSolr.enable}"/>
+    </bean>
+
+    <bean name="priceHistoryDataAccess" class="com.dfn.alerts.dataaccess.impl.PriceHistoryDataAccess">
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+    </bean>
+
+    <bean name="topStocksDataAccess" class="com.dfn.alerts.dataaccess.impl.TopStocksDataAccess">
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="multipleSocketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="cacheConfigKey" value="topStockCacheConfig"/>
+    </bean>
+
+    <bean name="keyOfficersDataAccess" class="com.dfn.alerts.dataaccess.impl.KeyOfficersDataAccess">
+        &lt;!&ndash;<constructor-arg ref="cacheConfig"/>&ndash;&gt;
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="corporateActionsCacheConfig"/>
+    </bean>-->
+
+    <!--Helpers-->
+
+    <bean name="requestGenerator" class="com.dfn.alerts.dataaccess.utils.SocketRequestGenerator"/>
+
+    <bean name="httpRequestGenerator" class="com.dfn.alerts.dataaccess.utils.HTTPRequestGenerator"/>
+
+   <!-- <bean name="solrNewsRequestGenerator" class="com.dfn.alerts.dataaccess.impl.news.SolrNewsRequestGenerator"/>
+
+    <bean name="newsQueryGenerator" class="com.dfn.alerts.dataaccess.utils.NewsQueryGenerator">
+        <property name="dbType" value="${db.imdb.type}"/>
+    </bean>-->
+
+
+    <!--<bean name="announcementQueryGenerator" class="com.dfn.alerts.dataaccess.utils.AnnouncementQueryGenerator">
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="dbType" value="${db.imdb.type}"/>
+    </bean>
+
+    <bean id="realTimeDataAccess" class="com.dfn.alerts.dataaccess.impl.RealTimeDataAccess">
+        <property name="realTimeDataProvider" ref="realTimeDataProvider"/>
+        <property name="connector" ref="cmAdapter"/>
+    </bean>-->
+
+    <bean id="masterDataAccess" class="com.dfn.alerts.dataaccess.impl.MasterDataAccess">
+    <!--<bean id="masterDataAccess" class="com.dfn.alerts.dataaccess.impl.MasterDataAccess" init-method="initCacheUpdate">-->
+        <description>Master data data access.</description>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="gson" ref="gson"/>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <!--<property name="userDetailsDataAccess" ref="userDetailsDataAccess"/>-->
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="productId" value="1"/>
+    </bean>
+
+    <!--<bean name="reportDataAccess" class="com.dfn.alerts.dataaccess.impl.ReportsDataAccess">
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="dcmsCacheServer"/>
+        &lt;!&ndash;<property name="requestGenerator" ref="requestGenerator"/>&ndash;&gt;
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="imdbDaoFactory" ref="imdbdaoFactory"/>
+        <property name="driverManagerDataSource" ref="infoDataSource"/>
+        &lt;!&ndash;<property name="masterDataProvider" ref="masterDataProvider"/>&ndash;&gt;
+        <property name="cacheConfigKey" value="reportsCacheConfig"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+    </bean>
+
+    <bean name="technicalScannerDataAccess" class="com.dfn.alerts.dataaccess.impl.TechnicalScannerDataAccess">
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="httpConnectionManager" ref="technicalScannerHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="technicalScannerSocketServer"/>
+    </bean>
+
+
+    <bean name="investmentDataAccess" class="com.dfn.alerts.dataaccess.impl.InvestmentDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="investmentCacheConfig"/>
+    </bean>
+
+    <bean name="companyProfileDataAccess" class="com.dfn.alerts.dataaccess.impl.CompanyProfileDataAccess">
+        <description>Company Profile data access.</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="companyProfileCacheConfig"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+    </bean>-->
+
+    <bean id="tickerDataAccess" class="com.dfn.alerts.dataaccess.impl.TickerDataAccess">
+        <description>Symbol data access</description>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <!--<property name="cacheManager" ref="bigMemoryCacheImpl"/>-->
+        <property name="dbType" value="4"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+    </bean>
+
+    <bean name="earningsAnnouncementDataAccess" class="com.dfn.alerts.dataaccess.impl.EarningsAnnouncementDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <!--<property name="cacheManager" ref="bigMemoryCacheImpl"/>-->
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+        <!--<property name="memoryCache" ref="bigMemoryCacheImpl"/>-->
+        <!--<property name="cacheConfigKey" value="earningsAnnouncementCacheConfig"/>-->
+    </bean>
+
+    <bean name="fundamentalDataNotificationDataAccess" class="com.dfn.alerts.dataaccess.impl.FundamentalDataNotificationDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="daoFactory" ref="hibernateDaoFactoryImpl"/>
+    </bean>
+    <!--<bean id="newsDataAccess" class="com.dfn.alerts.dataaccess.impl.NewsDataAccess">
+        <description>News Data Access</description>
+        <property name="requestGenerator" ref="requestGenerator"/>
+        <property name="queryGenerator" ref="newsQueryGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="newsCacheServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="daoFactory" ref="hibernateDaoFactoryImpl"/>
+        <property name="settings" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="maxNewsSeqId" value="${application.news.max.seq}"/>
+        <property name="defaultMaxSyncTimeIMDB" value="${application.news.max.sync.time.imdb}"/>
+        <property name="defaultMinNewsDateIMDB" value="${application.news.min.news.date.imdb}"/>
+        <property name="maxNewsCount" value="${application.news.max.count}"/>
+        <property name="newsDAO" ref="newsDAO"/>
+        <property name="nodeId" value="${dfn.plus.server.node}"/>
+    </bean>
+
+    <bean id="newsDataAccess2" class="com.dfn.alerts.dataaccess.impl.news.NewsDataAccess">
+        <description>News Data Access</description>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="imdbNewsProvider" ref="imdbNewsProvider"/>
+        <property name="oracleNewsProvider" ref="oracleNewsProvider"/>
+        <property name="imdbNewsUpdater" ref="imdbNewsUpdater"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="cacheConfigKey" value="newsSearchDataAccessCacheConfig"/>
+        <property name="solrHttpServer" ref="solrHttpServer"/>
+        <property name="solrRequestGenerator" ref="solrNewsRequestGenerator"/>
+        <property name="useSolr" value="${system.newsSolr.enable}"/>
+    </bean>
+
+    <bean id="mixNewsProvider" class="com.dfn.alerts.dataaccess.impl.news.MixNewsProvider">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+    </bean>
+
+
+    <bean id="topNewsDataAccess" class="com.dfn.alerts.dataaccess.impl.TopNewsDataAccess">
+        <description>Top News Data Access</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="settings" ref="masterDataAccess"/>
+        <property name="newsDataAccess" ref="newsDataAccess2"/>
+        <property name="topNewsCacheConfigKey" value="topNewsCacheConfig"/>
+        <property name="newsDAO" ref="newsDAO"/>
+    </bean>
+
+
+    <bean name="fundDataAccess" class="com.dfn.alerts.dataaccess.impl.FundDataAccess">
+        <description>Fund Data Access</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="false"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="cacheConfigKey" value="fundsCacheConfig"/>
+    </bean>
+
+    <bean name="bondDataAccess" class="com.dfn.alerts.dataaccess.impl.BondDataAccess">
+        <description>Bond Data Access</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="false"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="cacheConfigKey" value="bondsCacheConfig"/>
+    </bean>
+
+
+    <bean name="databaseMessageSourceDataAccess"
+          class="com.dfn.alerts.dataaccess.impl.DatabaseMessageSourceDataAccess">
+        <property name="hibernateDaoFactoryImpl" ref="hibernateDaoFactoryImpl"/>
+    </bean>
+
+    <bean name="masterDataProvider" class="com.dfn.alerts.dataaccess.impl.MasterDataProvider">
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean name="companyManagementDataAccess" class="com.dfn.alerts.dataaccess.impl.CompanyManagementDataAccess">
+        <description>Company Profile data access.</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="companyManagementCacheConfig"/>
+    </bean>
+
+    <bean name="companyOwnersDataAccess" class="com.dfn.alerts.dataaccess.impl.CompanyOwnersDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="individualDataAccess" ref="individualDataAccess"/>
+        <property name="cacheConfigKey" value="ownersCacheConfig"/>
+    </bean>
+
+    <bean name="macroEconomyDataAccess" class="com.dfn.alerts.dataaccess.impl.MacroEconomyDataAccess">
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="macroEconomyCacheConfig"/>
+    </bean>
+
+    <bean name="peerCompanyDataAccess" class="com.dfn.alerts.dataaccess.impl.PeerCompanyDataAccess">
+        <description>Peer Companies data access.</description>
+        <property name="requestGenerator" ref="requestGenerator"/>
+        <property name="cacheEnabled" value="false"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="screenerCacheServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="cacheConfigKey" value="peerCompaniesCacheConfig"/>
+    </bean>
+
+
+    <bean name="relatedInstrumentsDataAccess" class="com.dfn.alerts.dataaccess.impl.RelatedInstrumentsDataAccess">
+        <description>Related instruments data access bean.</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="cacheConfigKey" value="relatedInstrumentsCacheConfig"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean name="unlistedCompaniesDataAccess" class="com.dfn.alerts.dataaccess.impl.UnlistedCompaniesDataAccess">
+        <description>Unlisted Companies listing data access.</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="unlistedCompanyCacheConfig"/>
+    </bean>
+
+    <bean name="multimediaDataAccess" class="com.dfn.alerts.dataaccess.impl.MultimediaDataAccess">
+        <description>Multimedia data access.</description>
+        <property name="requestGenerator" ref="requestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="fundamentalCacheServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="mediaCacheConfig"/>
+    </bean>
+
+    <bean name="userDetailsDataAccess" class="com.dfn.alerts.dataaccess.impl.UserDetailsDataAccess">
+        <description>Authentication Data Access</description>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="socketManager" ref="mixAuthHttpServer"/>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="productId" value="${product.id.decypha}"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="redisCacheManager" ref="redisCacheImpl"/>
+    </bean>
+
+    <bean name="userInteractionDataAccess" class="com.dfn.alerts.dataaccess.impl.UserInteractionDataAccess">
+        <description>User Interaction Data Access</description>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+    </bean>
+
+    <bean name="campaignDataAccess" class="com.dfn.alerts.dataaccess.impl.CampaignDataAccess">
+        <description>Campaign Data Access</description>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+    </bean>
+
+    <bean name="releaseNoteDataAccess" class="com.dfn.alerts.dataaccess.impl.ReleaseNoteDataAccess">
+        <description>Release Note Data Access</description>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+    </bean>
+
+    <bean name="financialSegmentDataAccess" class="com.dfn.alerts.dataaccess.impl.financial.FinancialSegmentDataAccess">
+        <description>Financial Segment Data Access</description>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="segmentCacheConfig"/>
+    </bean>
+
+    <bean name="userAutoLoginDataAccess" class="com.dfn.alerts.dataaccess.impl.UserAutoLoginDataAccess">
+        <description>User Auto Login Data Access</description>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+    </bean>
+
+    <bean name="userNotificationDataAccess" class="com.dfn.alerts.dataaccess.impl.EmailNotificationDataAccess">
+        <description>Authentication Data Access</description>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+    </bean>
+
+    <bean name="priceUserDataAccess" class="com.dfn.alerts.dataaccess.impl.PriceUserDataAccess">
+        <description>price user Data Access</description>
+        <property name="subscriptionManager" ref="subscriptionManager"/>
+    </bean>
+
+    <bean id="systemDataAccess" class="com.dfn.alerts.dataaccess.admin.SystemDataAccess">
+        <property name="ehCacheManager" ref="bigMemoryCacheImpl"/>
+        &lt;!&ndash;<property name="memeCacheManager" ref="memCache"/>&ndash;&gt;
+        <property name="imdbDaoFactory" ref="imdbdaoFactory"/>
+        <property name="JDBCDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="solrHttpServer" ref="solrHttpServer"/>
+        <property name="individualImagePath" value="${system.individual.image.url}"/>
+        <property name="countryImagePath" value="${system.country.image.url}"/>
+        <property name="companyImagePath" value="${system.company.image.url}"/>
+        <property name="sourceImagePath" value="${system.source.image.url}"/>
+        <property name="excelFilesPath" value="${system.excel.path}"/>
+        <property name="secureUrlPath" value="${secure.dfn.plus.url}"/>
+        <property name="rootPath" value="${system.root.path}"/>
+    </bean>
+
+    <bean name="treasuryBillsDataAccess" class="com.dfn.alerts.dataaccess.impl.TreasuryBillsDataAccess">
+        <description>Treasury bills data access.</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="treasuryBillsCacheConfig"/>
+    </bean>
+
+    <bean name="fundamentalScreenerDataAccess" class="com.dfn.alerts.dataaccess.impl.FundamentalScreenerDataAccess">
+        <description>Fundamental Screener data access.</description>
+        <property name="requestGenerator" ref="requestGenerator"/>
+        <property name="cacheEnabled" value="false"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="screenerCacheServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="peerCompaniesCacheConfig"/>
+    </bean>
+
+    <bean name="stockMarketDataAccess" class="com.dfn.alerts.dataaccess.impl.StockMarketDataAccess">
+        <description>Stock Market data access.</description>
+        <property name="httpRequestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="httpSocketManager" ref="mixHttpServer"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="stockMarketCacheConfig"/>
+    </bean>
+
+    <bean name="fixedIncomeDataAccess" class="com.dfn.alerts.dataaccess.impl.FixedIncomeDataAccess">
+        <description>Fixed Income data access.</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="fixedIncomeCacheConfig"/>
+    </bean>
+
+    <bean name="scannerDataAccess" class="com.dfn.alerts.dataaccess.impl.ScannerDataAccess">
+        <description>Scanner data access.</description>
+        <property name="httpServer" ref="technicalScannerHttpServer"/>
+    </bean>
+
+    <bean name="notificationDataAccess" class="com.dfn.alerts.dataaccess.impl.NotificationDataAccess">
+        <description>Notification Data Access</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="false"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServerNotification"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="bondsCacheConfig"/>
+    </bean>
+
+    <bean name="fundPositionDataAccess" class="com.dfn.alerts.dataaccess.impl.FundPositionDataAccess">
+        <description>Fund Position data access.</description>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="fundPositionCacheConfig"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+    </bean>
+
+    <bean id="securityConfigDataAccess" class="com.dfn.alerts.dataaccess.impl.SecurityConfigDataAccess">
+        <property name="hibernateDaoFactory" ref="hibernateDaoFactoryImpl"/>
+    </bean>
+
+    <bean name="webCacheDataAccess" class="com.dfn.alerts.dataaccess.admin.WebCacheDataAccess">
+        <description>Web Cache data access.</description>
+        <property name="redisCacheManager" ref="jedisCache"/>
+        &lt;!&ndash;<property name="memeCacheManager" ref="memCache"/>&ndash;&gt;
+        <property name="imdbDaoFactory" ref="imdbdaoFactory"/>
+    </bean>
+
+    <bean name="fundActionDataAccess" class="com.dfn.alerts.dataaccess.impl.FundActionDataAccess">
+        &lt;!&ndash;<constructor-arg ref="cacheConfig"/>&ndash;&gt;
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="corporateActionsCacheConfig"/>
+    </bean>
+
+    <bean name="investorTypesDataAccess" class="com.dfn.alerts.dataaccess.impl.InvestorTypesDataAccess">
+        <description>Investor Types Data Access</description>
+        &lt;!&ndash;<constructor-arg ref="cacheConfig"/>&ndash;&gt;
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="bondsCacheConfig"/>
+    </bean>
+
+    <bean name="kpiDataAccess" class="com.dfn.alerts.dataaccess.impl.KPIDataAccess">
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="kpiCacheConfig"/>
+        <property name="imdbDaoFactory" ref="imdbdaoFactory"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+    </bean>
+
+    <bean name="ownershipLimitsDataAccess" class="com.dfn.alerts.dataaccess.impl.OwnershipLimitsDataAccess">
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="ownershipLimitsCacheConfig"/>
+    </bean>
+
+    <bean name="fundInvestmentAllocationsDataAccess"
+          class="com.dfn.alerts.dataaccess.impl.FundInvestmentAllocationsDataAccess">
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="fundInvestmentsCacheConfig"/>
+        <property name="deleteAllCache" value="true"/>
+    </bean>
+
+    <bean name="investorTypeValuesDataAccess" class="com.dfn.alerts.dataaccess.impl.InvestorTypeValuesDataAccess">
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="investorTypesValuesCacheConfig"/>
+    </bean>
+
+    <bean id="dbAdminDataAccess" class="com.dfn.alerts.dataaccess.admin.DBAdminDataAccess">
+        <property name="imdbDaoFactory" ref="imdbdaoFactory"/>
+        <property name="jdbcdaoFactory" ref="jdbcdaoFactory"/>
+    </bean>
+
+    <bean id="databaseAppConfigDataAccess" class="com.dfn.alerts.dataaccess.config.DatabaseAppConfigDataAccess">
+        <property name="daoFactory" ref="hibernateDaoFactoryImpl"/>
+    </bean>
+
+    <bean id="requestTrackerDataAccess" class="com.dfn.alerts.dataaccess.audit.UserRequestTrackerDataAccess">
+        <property name="hibernateDaoFactoryImpl"  ref="hibernateDaoFactoryImpl"/>
+    </bean>
+
+    <bean id="ipoDataAccess" class="com.dfn.alerts.dataaccess.impl.IPODataAccess">
+        <description>IPO data access</description>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+    </bean>
+
+    <bean id="fundRatiosDataAccess" class="com.dfn.alerts.dataaccess.impl.FundRatiosDataAccess">
+        <description>Fund ratio data access</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="imdbDaoFactory" ref="imdbdaoFactory"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="fundRatiosCacheConfig"/>
+    </bean>
+
+    <bean id="regressionDataAccess" class="com.dfn.alerts.dataaccess.impl.RegressionDataAccess">
+        <description>regression data access</description>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="regressionCacheConfig"/>
+    </bean>
+
+    <bean id="companyHomeDataAccess" class="com.dfn.alerts.dataaccess.impl.CompanyHomeDataAccess">
+        <description>companyHome data access</description>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+    </bean>
+
+    <bean id="multiSymbolPriceHistoryDataAccess" class="com.dfn.alerts.dataaccess.impl.MultiSymbolPriceHistoryDataAccess">
+        <description>multi-symbol price data access</description>
+        <property name="requestGenerator" ref="httpRequestGenerator"/>
+        <property name="socketManager" ref="mixHttpServer"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="multiSymbolPriceHistoryCacheConfig"/>
+    </bean>
+
+    <bean id="jobSchedulerDataAccess" class="com.dfn.alerts.dataaccess.impl.JobSchedulerDataAccess">
+        <property name="jobSchedulerDAO" ref="jobSchedulerDAO"/>
+    </bean>
+
+    <bean name="financialAnalystDataAccess" class="com.dfn.alerts.dataaccess.impl.FinancialAnalystDataAccess">
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="hibernateDAOFactory" ref="hibernateDaoFactoryImpl"/>
+        <property name="daysToExpire" value="30"/>
+        <property name="emailFromAddress" value="${dfn.mail.smtp.fromEmail}"/>
+        <property name="emailFromName" value="${dfn.mail.smtp.fromName}"/>
+        <property name="useDummyEmail" value="${dfn.mail.useDummy}"/>
+        <property name="dummyEmail" value="${dfn.mail.dummyEmail}"/>
+    </bean>
+
+    <bean id="maDataAccess" class="com.dfn.alerts.dataaccess.impl.MADataAccess">
+        <description>MA data access</description>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="maCacheConfig"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean id="companyScreenerDataAccess" class="com.dfn.alerts.dataaccess.impl.CompanyScreenerDataAccess">
+        <description>Company Screener Data Access</description>
+        <property name="companyScreenerIMDBDataProvider" ref="companyScreenerIMDBDataProvider"/>
+        <property name="companyScreenerOracleDataProvider" ref="companyScreenerOracleDataProvider"/>
+    </bean>
+
+    <bean id="companyFinancialDataAccess" class="com.dfn.alerts.dataaccess.impl.CompanyFinancialDataAccess">
+        <description>Company Financial Data Access</description>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+        <property name="cacheEnabled" value="true"/>
+        <property name="cacheManager" ref="bigMemoryCacheImpl"/>
+        <property name="memoryCache" ref="bigMemoryCacheImpl"/>
+        <property name="cacheConfigKey" value="company"/>
+    </bean>
+
+    <bean name="solrAnnouncementRequestGenerator" class="com.dfn.alerts.dataaccess.impl.SolrAnnouncementRequestGenerator"/>
+
+    <bean id="solrAnnouncementDAO" class="com.dfn.alerts.dataaccess.impl.SolrAnnouncementDAOImpl" >
+        <property name="solrHttpServer" ref="solrHttpServer"/>
+        <property name="solrRequestGenerator" ref="solrAnnouncementRequestGenerator"/>
+    </bean>
+
+    <bean id="purchaseDataAccess" class="com.dfn.alerts.dataaccess.impl.PurchaseDataAccess">
+        <property name="hibernateDAOFactory" ref="hibernateDaoFactoryImpl"/>
+        <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+    </bean>-->
+    <bean id="gson" class="com.google.gson.Gson"/>
+    <!--DAO Layer-->
+    <import resource="classpath*:/alert-db-data-access-bean.xml"/>
+
+    <import resource="classpath*:/alert-socket-data-access-bean.xml"/>
+
+    <import resource="classpath*:/alert-cache-data-access-bean.xml"/>
+
+    <import resource="classpath*:/alert-common-bean.xml"/>
+
+</beans>

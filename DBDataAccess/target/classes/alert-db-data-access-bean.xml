@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--see info-property-configure.xml file to see how we load this settings ${hibernate.jdbc.username} , ${hibernate.jdbc.password} etc-->
+
+    <!--   <bean id="jdbcAnnouncementDAO" class="com.dfn.alerts.dataaccess.dao.impl.ClusteredJDBCAnnouncementDAOImpl" >
+           <constructor-arg name="driverManagerDataSource" ref="infoDataSource"/>
+       </bean>
+
+       <bean id="oracleNewsProvider" class="com.dfn.alerts.dataaccess.dao.impl.news.OracleNewsProvider">
+           <property name="driverManagerDataSource" ref="infoDataSource"/>
+           <property name="newsQueryGenerator" ref="oracleNewsQueryGenerator"/>
+           <property name="dbType" value="2"/>
+       </bean>
+
+       <bean id="oracleNewsUpdater" class="com.dfn.alerts.dataaccess.dao.impl.news.OracleNewsUpdater">
+           <property name="driverManagerDataSource" ref="infoDataSource"/>
+           <property name="newsQueryGenerator" ref="oracleNewsQueryGenerator"/>
+           <property name="jdbcDaoFactory" ref="jdbcdaoFactory"/>
+       </bean>
+
+       <bean id="oracleNewsQueryGenerator" class="com.dfn.alerts.dataaccess.utils.news.OracleNewsQueryGenerator"/>
+   -->
+    <bean id="infoDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@//192.168.13.214:1521/NGPDB2"/>
+        <property name="username" value="dfn_plus"/>
+        <property name="password" value="password"/>
+    </bean>
+
+    <bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="infoDataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+                <prop key="hbm2ddl.auto">update</prop>
+                <prop key="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</prop>
+            </props>
+        </property>
+        <property name="packagesToScan">
+            <list>
+                <value>com.dfn.alerts.dataaccess.orm.impl.earnings</value>
+                <value>com.dfn.alerts.dataaccess.orm.impl.notifications</value>
+            </list>
+        </property>
+
+        <property name="mappingResources">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="criteriaGenerator" class="com.dfn.alerts.dataaccess.utils.CriteriaGenerator"/>
+
+    <bean id="hibernateDaoFactoryImpl" class="com.dfn.alerts.dataaccess.dao.impl.HibernateDAOFactoryImpl">
+        <property name="session" ref="hibernateSessionFactory"/>
+        <property name="criteriaGenerator" ref="criteriaGenerator"/>
+    </bean>
+
+    <bean id="jdbcdaoFactory" class="com.dfn.alerts.dataaccess.dao.impl.JDBCDAOFactoryImpl">
+        <property name="driverManagerDataSource" ref="infoDataSource"/>
+    </bean>
+
+    <!--<bean id="jobSchedulerDAO"  class="com.dfn.alerts.dataaccess.dao.impl.JDBCJobSchedulerDAOImpl">
+        <property name="driverManagerDataSource" ref="infoDataSource"/>
+    </bean>
+
+    <bean id="newsDAO" class="com.dfn.alerts.dataaccess.dao.impl.NewsDAOImpl">
+        <property name="imdbDriverManagerDataSource" ref="imdbDataSource"/>
+        <property name="oracleDriverManagerDataSource" ref="infoDataSource"/>
+        <property name="sessionFactory" ref="hibernateSessionFactory"/>
+        <property name="criteriaGenerator" ref="criteriaGenerator"/>
+        <property name="newsQueryGenerator" ref="imdbNewsQueryGenerator"/>
+    </bean>
+
+    <bean id="companyScreenerIMDBDataProvider"
+          class="com.dfn.alerts.dataaccess.dao.impl.companyscreener.CompanyScreenerIMDBProvider">
+        <description>IMDB Data Provider of company screener data access</description>
+        <property name="driverManagerDataSource" ref="imdbDataSource"/>
+        <property name="companyScreenerQueryGenerator" ref="companyScreenerIMDBQueryGenerator"/>
+    </bean>
+
+    <bean id="companyScreenerOracleDataProvider"
+          class="com.dfn.alerts.dataaccess.dao.impl.companyscreener.CompanyScreenerOracleProvider">
+        <description>Oracle Data Provider of company screener data access</description>
+        <property name="driverManagerDataSource" ref="infoDataSource"/>
+        <property name="companyScreenerQueryGenerator" ref="companyScreenerOracleQueryGenerator"/>
+    </bean>
+
+    <bean id="companyScreenerOracleQueryGenerator" class="com.dfn.alerts.dataaccess.utils.companyscreener.CompanyScreenerOracleQueryGenerator">
+        &lt;!&ndash;dbType 2 is for oracle&ndash;&gt;
+        <property name="dbType" value="2"/>
+    </bean>
+
+    <bean id="companyScreenerIMDBQueryGenerator" class="com.dfn.alerts.dataaccess.utils.companyscreener.CompanyScreenerIMDBQueryGenerator">
+        &lt;!&ndash;dbType 2 is for derby&ndash;&gt;
+        <property name="dbType" value="4"/>
+    </bean>-->
+
+    <!--<context:component-scan base-package="com.dfn.alerts.dataaccess.dao.impl"/>-->
+
+
+</beans>

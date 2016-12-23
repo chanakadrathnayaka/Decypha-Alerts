@@ -1,0 +1,1217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<cache:annotation-driven cache-manager="methodCacheManager" />-->
+
+    <!--<bean id="cacheDataUpdateManager" class="com.dfn.alerts.impl.dataUpdate.nodes.CacheDataUpdater">
+        <property name="companyHomeDataAccess" ref="companyHomeDataAccess"/>
+        <property name="individualDataAccess" ref="individualDataAccess"/>
+        <property name="maDataAccess" ref="maDataAccess"/>
+    </bean>
+
+    &lt;!&ndash; ANNOUNCEMENTS &ndash;&gt;
+
+    <bean id="nodeAnnouncementManager" class="com.dfn.alerts.impl.dataUpdate.nodes.AnnouncementDataUpdater">
+        <property name="announcementUpdateDAO" ref="announcementUpdator"/>
+        <property name="settings" ref="masterDataAccess"/>
+        <property name="solrHTTPServer" ref="solrHttpServer"/>
+        <property name="solrRequestGenerator" ref="solrAnnouncementRequestGenerator"/>
+    </bean>
+
+    <bean id="clusterAnnouncementManager" class="com.dfn.alerts.impl.dataUpdate.cluster.AnnouncementDataUpdater">
+        <property name="announcementUpdateDAO" ref="announcementUpdator"/>
+        <property name="settings" ref="masterDataAccess"/>
+    </bean>
+
+    &lt;!&ndash; END ANNOUNCEMENTS &ndash;&gt;
+
+    &lt;!&ndash; NEWS &ndash;&gt;
+
+    <bean name="newsManagerNew" class="com.dfn.alerts.impl.news.NewsManager">
+        <property name="newsDataAccess" ref="newsDataAccess2"/>
+        <property name="masterDataManager" ref="masterDataManager"/>
+    </bean>
+
+    <bean name="topNewsManager" class="com.dfn.alerts.impl.news.TopNewsManager">
+        <property name="topNewsDataAccess" ref="topNewsDataAccess"/>
+    </bean>
+
+    <bean name="newsDetailsManager" class="com.dfn.alerts.impl.news.NewsDetailsManager">
+        <property name="newsDetailsDataAccess" ref="newsDetailsDataAccess"/>
+    </bean>
+
+    <bean name="newsManager" class="com.dfn.alerts.impl.NewsManager">
+        <description>Bean definition for news manager</description>
+        <property name="newsDetailsDataAccess" ref="newsDetailsDataAccess"/>
+        &lt;!&ndash;<property name="newsDataAccess" ref="newsDataAccess"/>&ndash;&gt;
+        <property name="newsDataAccess" ref="newsDataAccess"/>
+        <property name="topNewsDataAccess" ref="topNewsDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="individualDataAccess" ref="individualDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="clientRequestGenerator" ref="clientRequestGenerator"/>
+        <property name="jobUtils" ref="jobUtils" />
+        <property name="settings" ref="masterDataAccess"/>
+        <property name="enableEODOracleUpdate" value="${system.eodOracle.enable}"/>
+        <property name="enableEODIMDBUpdate" value="${system.newsImdb.enable}"/>
+    </bean>
+
+    <bean name="announcementManager" class="com.dfn.alerts.impl.AnnouncementManager">
+        <description>Bean definition for Announcement manager</description>
+        &lt;!&ndash;<property name="announcementDataAccess" ref="announcementDataAccess" />&ndash;&gt;
+        <property name="announcementDataAccess" ref="clusteredAnnouncementDataAccess" />
+        <property name="settings" ref="masterDataAccess"/>
+        &lt;!&ndash;<property name="jobUtils" ref="jobUtils" />&ndash;&gt;
+        <property name="announcementDetailsDataAccess" ref="announcementDetailsDataAccess"/>
+        &lt;!&ndash;<property name="enableEODOracleUpdate" value="${system.eodOracle.enable}"/>&ndash;&gt;
+        &lt;!&ndash;<property name="enableEODIMDBUpdate" value="${system.announcementsImdb.enable}"/>&ndash;&gt;
+    </bean>
+
+    <bean name="insiderTransactionManager" class="com.dfn.alerts.impl.InsiderTransactionManager">
+        <description>Bean definition for Insider Transaction manager</description>
+        <property name="insiderTransactionDataAccess" ref="insiderTransactionDataAccess"/>
+    </bean>
+
+    <bean name="fairValuesManager" class="com.dfn.alerts.impl.FairValuesManager">
+        <description>Bean definition for Fair Values manager</description>
+        <property name="fairValuesDataAccess" ref="fairValuesDataAccess"/>
+    </bean>
+
+    <bean name="corporateActionsManager" class="com.dfn.alerts.impl.CorporateActionsManager">
+        <description>Bean definition for Corporate Actions manager</description>
+        <property name="corporateActionsDataAccess" ref="corporateActionsDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="clientRequestGenerator" ref="clientRequestGenerator"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+    </bean>
+
+    <bean name="individualManager" class="com.dfn.alerts.impl.IndividualManager">
+        <description>Bean definition for Individual manager</description>
+        <property name="individualDataAccess" ref="individualDataAccess"/>
+        <property name="individualSearchDataAccess" ref="individualSearchDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+    </bean>
+
+    <bean name="campaignManager" class="com.dfn.alerts.impl.CampaignManager">
+        <description>Bean definition for Campaign manager</description>
+        <property name="campaignDataAccess" ref="campaignDataAccess"/>
+        <property name="campaignImagePath" value="${system.campaign.image.url}"/>
+    </bean>
+
+    <bean name="releaseNoteManager" class="com.dfn.alerts.impl.ReleaseNoteManager">
+        <description>Bean definition for Release Note manager</description>
+        <property name="releaseNoteDataAccess" ref="releaseNoteDataAccess"/>
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="emailNotificationServer" ref="emailSender"/>
+        <property name="userDetailsDataAccess" ref="userDetailsDataAccess"/>
+        <property name="userInteractionDataAccess" ref="userInteractionDataAccess"/>
+    </bean>
+
+    <bean name="financialSegmentManager" class="com.dfn.alerts.impl.financial.FinancialSegmentManager">
+        <description>Bean definition for Financial Segment Manager</description>
+        <property name="financialSegmentDataAccess" ref="financialSegmentDataAccess"/>
+    </bean>
+
+    <bean name="fundTickerUpdateManager" class="com.dfn.alerts.impl.jobs.manager.FundTickerUpdateManager">
+        <description>Bean definition for Fund Ticker Manager</description>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean name="userAutoLoginManager" class="com.dfn.alerts.impl.UserAutoLoginManager">
+        <description>Bean definition for user auto login manager</description>
+        <property name="userAutoLoginDataAccess" ref="userAutoLoginDataAccess"/>
+        <property name="emailNotificationDataAccess" ref="userNotificationDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="emailNotificationServer" ref="emailSender"/>
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="fromEmailSupport" value="${dfn.mail.smtp.fromEmail}"/>
+        <property name="fromResetEmailSupport" value="${dfn.resetPasswordMail.smtp.fromEmail}"/>
+        <property name="fromNameSupport" value="${dfn.mail.smtp.fromName}"/>
+    </bean>
+
+    <bean name="calendarEventsManager" class="com.dfn.alerts.impl.CalendarEventsManager">
+        <description>Bean definition for Insider Transaction manager</description>
+        <property name="calendarEventsDataAccess" ref="calendarEventsDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean name="technicalScannerManager" class="com.dfn.alerts.impl.TechnicalScannerManager">
+        <description>Bean definition for Insider Transaction manager</description>
+        <property name="technicalScannerDataAccess" ref="technicalScannerDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean name="treasuryBillsManager" class="com.dfn.alerts.impl.TreasuryBillsManager">
+        <description>Bean definition for Treasury Bills manager</description>
+        <property name="treasuryBillsDataAccess" ref="treasuryBillsDataAccess"/>
+    </bean>
+
+    <bean name="priceHistoryManager" class="com.dfn.alerts.impl.PriceHistoryManager">
+        <property name="priceHistoryDataAccess" ref="priceHistoryDataAccess"/>
+    </bean>
+
+    <bean name="topStocksManager" class="com.dfn.alerts.impl.TopStocksManager">
+        <property name="topStocksDataAccess" ref="topStocksDataAccess"/>
+    </bean>
+
+    <bean name="symbolDataManager" class="com.dfn.alerts.impl.SymbolDataManager">
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+
+    <bean name="realTimeDataManager" class="com.dfn.alerts.impl.RealTimeDataManager">
+        <property name="realTimeDataAccess" ref="realTimeDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="millisToWait" value="${time.to.wait.inMillis}"/>
+    </bean>
+
+    <bean name="masterDataManager" class="com.dfn.alerts.impl.MasterDataManager">
+        <description>Bean definition for Master Manager</description>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="systemDataAccess" ref="systemDataAccess"/>
+    </bean>
+
+    <bean name="tickerDataManager" class="com.dfn.alerts.impl.TickerDataManager">
+        <description>Bean Definition for Ticker data manager which is used search ticker data from In-memory database</description>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean name="reportDataManager" class="com.dfn.alerts.impl.ReportDataManager">
+        <description>Bean definition for Report Data Manager</description>
+        <property name="reportDataAccess" ref="reportDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="languageCodes" value="EN,AR"/>
+        <property name="userId" value="${dfn.dcms.uid}"/>
+        <property name="sessionId" value="${dfn.dcms.sid}"/>
+        <property name="restrictData" value="false"/>
+        &lt;!&ndash;if multiple languages need to be set use this property. other wise leave this as empty&ndash;&gt;
+    </bean>
+
+    <bean id="investmentsManager" class="com.dfn.alerts.impl.InvestmentsManager">
+        <property name="investmentsDataAccess" ref="investmentDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+    </bean>
+
+    <bean name="companyProfileManager" class="com.dfn.alerts.impl.CompanyProfileManager">
+        <description>Bean definition for Company Profile Manager</description>
+        <property name="companyProfileDataAccess" ref="companyProfileDataAccess"/>
+    </bean>
+
+    <bean name="companyProfileReportManager" class="com.dfn.alerts.impl.CompanyProfileReportManager">
+        <description>Bean definition for Company Profile Manager</description>
+        <property name="companyProfileDataAccess" ref="companyProfileDataAccess"/>
+        <property name="financialDataAccess" ref="financialDataAccess"/>
+        <property name="gson" ref="gson"/>
+        <property name="scannerDataAccess" ref="scannerDataAccess"/>
+        <property name="companyOwnersDataAccess" ref="companyOwnersDataAccess"/>
+        <property name="clientRequestGenerator" ref="clientRequestGenerator"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="investmentManager" ref="investmentsManager"/>
+        <property name="keyOfficersManager" ref="keyOfficersManager"/>
+    </bean>
+
+    <alias name="databaseMessageSourceManagerBean" alias="databaseMessageSourceManager"/>
+
+    <bean name="databaseMessageSourceManagerBean" class="com.dfn.alerts.impl.DatabaseMessageSourceManager">
+        <property name="databaseMessageSourceDataAccess" ref="databaseMessageSourceDataAccess"/>
+    </bean>
+
+    <bean name="databaseMessageSourceManagerVPN" class="com.dfn.alerts.impl.DatabaseMessageSourceManagerVPN">
+        <property name="databaseMessageSourceDataAccess" ref="databaseMessageSourceDataAccess"/>
+    </bean>
+
+    <bean name="financialDataManager" class="com.dfn.alerts.impl.financial.FinancialDataManager">
+        <description>Bean definition for Financial data manager</description>
+        <property name="financialDataAccess" ref="financialDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="financialAverageRatioDataAccess" ref="financialAverageRatioDataAccess"/>
+        <property name="estimatesManager" ref="estimatesManager"/>
+        <property name="financialSegmentManager" ref="financialSegmentManager"/>
+    </bean>
+
+    <bean name="financialAverageRatioManager" class="com.dfn.alerts.impl.financial.FinancialAverageRatioManager">
+        <description>Bean definition for Financial average ratio data manager</description>
+        <property name="financialAverageRatioDataAccess" ref="financialAverageRatioDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="financialDataAccess" ref="financialDataAccess"/>
+        <property name="clientRequestGenerator" ref="clientRequestGenerator"/>
+    </bean>
+
+    <bean name="externalDataManager" class="com.dfn.alerts.impl.ExternalDataManager">
+        <description>Bean definition for External data manager</description>
+        <property name="externalDataAccess" ref="externalDataAccess"/>
+    </bean>
+
+    <bean name="financialUtils" class="com.dfn.alerts.utils.FinancialUtils">
+        <description>Bean definition for financial Util class</description>
+    </bean>
+
+    <bean name="estimatesManager" class="com.dfn.alerts.impl.financial.EstimatesManager">
+        <description>Bean definition for Financial data manager</description>
+        <property name="estimatesDataAccess" ref="estimatesDataAccess"/>
+        <property name="financialDataAccess" ref="financialDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="gson" ref="gson"/>
+    </bean>
+
+    <bean id="gson" class="com.google.gson.Gson">
+        <description>This is to convert java object to JSON string and vise versa</description>
+    </bean>
+
+    <bean name="advancedSearchManager" class="com.dfn.alerts.impl.AdvancedSearchManager">
+        <description>Bean definition for Financial data manager</description>
+        <property name="advancedSearchDataAccess" ref="advancedSearchDataAccess"/>
+    </bean>
+
+    <bean name="fundManager" class="com.dfn.alerts.impl.FundManager">
+        <description>Bean definition for Fund manager</description>
+        <property name="fundDataAccess" ref="fundDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="fundPositionDataAccess" ref="fundPositionDataAccess"/>
+    </bean>
+-->
+    <bean name="earningsAnnouncementManager" class="com.dfn.alerts.impl.EarningsAnnouncementManager">
+        <description>Bean definition for Earnings Annoucement Manager</description>
+        <property name="earningsAnnouncementDataAccess" ref="earningsAnnouncementDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean name="notificationManager" class="com.dfn.alerts.impl.FundamentalDataNotificationManager">
+        <description>Bean definition for Fundamental Notification Manager</description>
+        <property name="fundamentalDataNotificationDataAccess" ref="fundamentalDataNotificationDataAccess"/>
+    </bean>
+<!--
+
+    <bean name="peerCompanyManager" class="com.dfn.alerts.impl.PeerCompanyManager">
+        <description>Bean definition for Peer Company Manager</description>
+        <property name="peerCompanyDataAccess" ref="peerCompanyDataAccess"/>
+    </bean>
+
+    <bean name="companyManagementManager" class="com.dfn.alerts.impl.CompanyManagementManager">
+        <description>Bean definition for company management Manager</description>
+        <property name="dataAccess" ref="companyManagementDataAccess"/>
+        <property name="keyOfficersManager" ref="keyOfficersManager"/>
+        <property name="masterDataManager" ref="masterDataManager"/>
+    </bean>
+
+    <bean name="bondManager" class="com.dfn.alerts.impl.BondManager">
+        <description>Bean definition for Bond manager</description>
+        <property name="bondDataAccess" ref="bondDataAccess"/>
+    </bean>
+
+    <bean name="companyOwnersManager" class="com.dfn.alerts.impl.CompanyOwnersManager">
+        <description>Bean definition for company management Manager</description>
+        <property name="ownersDataAccess" ref="companyOwnersDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess" />
+        <property name="masterDataAccess" ref="masterDataAccess" />
+    </bean>
+
+    <bean name="macroEconomyManager" class="com.dfn.alerts.impl.MacroEconomyManager">
+        <description>Bean definition for company management Manager</description>
+        <property name="macroEconomyDataAccess" ref="macroEconomyDataAccess"/>
+    </bean>
+
+    <bean name="relatedInstrumentManager" class="com.dfn.alerts.impl.RelatedInstrumentManager">
+        <description>Bean definition for Related Instruments Manger</description>
+        <property name="relatedInstrumentsDataAccess" ref="relatedInstrumentsDataAccess"/>
+    </bean>
+
+    <bean name="unlistedCompaniesManager" class="com.dfn.alerts.impl.UnlistedCompaniesManager">
+        <description>Bean definition for unlisted companies listing</description>
+        <property name="unlistedCompaniesDataAccess" ref="unlistedCompaniesDataAccess"/>
+        <property name="loadImdbData" value="true" />
+        <property name="tickerDataAccess" ref="tickerDataAccess" />
+        <property name="masterDataAccess" ref="masterDataAccess" />
+    </bean>
+
+    <bean name="multimediaManager" class="com.dfn.alerts.impl.MultimediaManager">
+        <description>Bean definition for multimedia Manager</description>
+        <property name="multimediaDataAccess" ref="multimediaDataAccess"/>
+    </bean>
+
+    <bean name="userDetailsManager" class="com.dfn.alerts.impl.UserDetailsManager">
+        <description>Bean definition for authentication manager</description>
+        <property name="userDetailsDataAccess" ref="userDetailsDataAccess"/>
+        <property name="dbAdminDataAccess" ref="dbAdminDataAccess"/>
+        <property name="priceUserDataAccess" ref="priceUserDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        <property name="emailNotificationServer" ref="emailSender"/>
+        <property name="serverUrl" value="${dfn.plus.url}"/>
+        <property name="smsDataAccess" ref="SMSDataAccess"/>
+        <property name="userInteractionDataAccess" ref="userInteractionDataAccess"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="fromEmailSupport" value="${dfn.mail.smtp.fromEmail}"/>
+        <property name="fromResetEmailSupport" value="${dfn.resetPasswordMail.smtp.fromEmail}"/>
+        <property name="fromNameSupport" value="${dfn.mail.smtp.fromName}"/>
+        <property name="emailSender" ref="emailSender"/>
+    </bean>
+
+    <bean name="priceUserManager" class="com.dfn.alerts.impl.PriceUserManager">
+        <description>Bean definition for price user manager</description>
+        <property name="priceUserDataAccess" ref="priceUserDataAccess"/>
+    </bean>
+
+    <bean name="fundamentalScreenerManager" class="com.dfn.alerts.impl.FundamentalScreenerManager">
+        <description>Bean definition for Fundamental Screener Manager</description>
+        <property name="fundamentalScreenerDataAccess" ref="fundamentalScreenerDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="clientRequestGenerator" ref="clientRequestGenerator"/>
+        <property name="masterDataManager" ref="masterDataManager"/>
+    </bean>
+
+    <bean name="stockMarketManager" class="com.dfn.alerts.impl.StockMarketManager">
+        <description>Bean definition for Stock Market Manager</description>
+        <property name="stockMarketDataAccess" ref="stockMarketDataAccess"/>
+    </bean>
+
+    <bean name="fixedIncomeManager" class="com.dfn.alerts.impl.FixedIncomeManager">
+        <description>Bean definition for Fixed Income Manager</description>
+        <property name="fixedIncomeDataAccess" ref="fixedIncomeDataAccess"/>
+    </bean>
+
+    <bean name="fundActionManager" class="com.dfn.alerts.impl.FundActionManager">
+        <description>Bean definition for Fund Action manager</description>
+        <property name="fundActionDataAccess" ref="fundActionDataAccess"/>
+    </bean>
+
+    <bean name="investorTypesManager" class="com.dfn.alerts.impl.InvestorTypesManager">
+        <description>Bean definition for Investor Types manager</description>
+        <property name="investorTypesDataAccess" ref="investorTypesDataAccess"/>
+        <property name="investorTypesValuesDataAccess" ref="investorTypeValuesDataAccess"/>
+    </bean>
+
+    <bean name="kpiManager" class="com.dfn.alerts.impl.KPIManager">
+        <description>Bean definition for KPI manager</description>
+        <property name="kpiDataAccess" ref="kpiDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+    <bean name="ownershipLimitsManager" class="com.dfn.alerts.impl.OwnershipLimitsManager">
+        <description>Bean definition for ownership limits manager</description>
+        <property name="dataAccess" ref="ownershipLimitsDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="gson" ref="gson"/>
+    </bean>
+
+    <bean name="exportDataManager" class="com.dfn.alerts.impl.ExportDataManager">
+        <description>Bean definition for export data manager</description>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        <property name="gson" ref="gson"/>
+        <property name="userRequestTrackerDataAccess" ref="requestTrackerDataAccess" />
+        <property name="fromEmailSupport" value="${dfn.mail.smtp.fromEmail}"/>
+        <property name="fromNameSupport" value="${dfn.mail.smtp.fromName}"/>
+    </bean>
+
+    <bean name="keyOfficersManager" class="com.dfn.alerts.impl.KeyOfficersManager">
+        <description>Bean definition for key officers Manager</description>
+        <property name="keyOfficersDataAccess" ref="keyOfficersDataAccess"/>
+    </bean>
+
+    <bean name="companyHomeManager" class="com.dfn.alerts.impl.CompanyHomeManager">
+        <description>Bean definition for Company Home Manager</description>
+        <property name="tickerDataManager" ref="tickerDataManager"/>
+        <property name="masterDataManager" ref="masterDataManager"/>
+        <property name="companyHomeDataAccess" ref="companyHomeDataAccess"/>
+    </bean>
+
+    <bean name="topNewsNotificationUpdateManager" class="com.dfn.alerts.impl.jobs.manager.TopNewsNotificationUpdateManager">
+        <description>Bean definition for Notification manager</description>
+        <property name="informationTypes"      value="NEWS_TOP"/>
+        <property name="initialTransactionId" value="${system.notification.topNews.initialTransactionId}"/>
+        &lt;!&ndash;<property name="initialTransactionId" value="6700837"/>&ndash;&gt;
+        <property name="systemDataManager" ref="systemDataManager"/>
+        <property name="webCacheManager" ref="webCacheManager" />
+        <property name="notificationDataAccess" ref="notificationDataAccess"/>
+        <property name="nodeId" value="${dfn.plus.server.node}"/>
+        <property name="jobUtils" ref="jobUtils"/>
+
+        <property name="notificationListeners">
+            <map key-type="java.lang.String" value-type="java.util.List">
+                <entry key="NEWS_TOP">
+                    <list>
+                        <ref bean="topNewsManager"/>
+                    </list>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean name="mergingAcquisitionManager" class="com.dfn.alerts.impl.MergingAcquisitionManager">
+        <description>Bean definition for Merging Acquistion Manager</description>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="masterDataManager" ref="masterDataManager"/>
+        <property name="maDataAccess" ref="maDataAccess"/>
+    </bean>
+
+    &lt;!&ndash; End define Manager beans&ndash;&gt;
+
+    &lt;!&ndash;Helpers&ndash;&gt;
+    <bean name="clientRequestGenerator" class="com.dfn.alerts.utils.ClientRequestGenerator">
+        <property name="gson" ref="gson"/>
+    </bean>
+
+    &lt;!&ndash; Admin module&ndash;&gt;
+    <bean id="systemDataManager" class="com.dfn.alerts.admin.SystemDataManager">
+        <property name="systemDataAccess" ref="systemDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        &lt;!&ndash;<property name="tickerDataAccess" ref="tickerDataAccess"/>&ndash;&gt;
+        <property name="dbAdminDataAccess" ref="dbAdminDataAccess"/>
+        <property name="topNewsDataAccess" ref="topNewsDataAccess"/>
+        <property name="emailNotificationServer" ref="emailSender"/>
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        &lt;!&ndash;<property name="priceHistoryDataAccess" ref="priceHistoryDataAccess"/>&ndash;&gt;
+        <property name="smartSearchJSPath" value="${system.js.modul.url}"/>
+        <property name="screenerCriterionJSPath" value="${system.js.scrCriterion.url}"/>
+        <property name="currencySearchJSPath" value="${system.js.currencySearch.url}"/>
+        <property name="masterDataManager" ref="masterDataManager"/>
+        <property name="noOfDaysFromLastRun" value="1"/>
+        <property name="serverUrl" value="${dfn.plus.url}"/>
+        <property name="enableEODOracleUpdate" value="${system.eodOracle.enable}"/>
+        <property name="enableEODIMDBUpdate" value="${system.eodImdb.enable}"/>
+        <property name="enableEODIMGDownload" value="${system.eodImgDL.enable}"/>
+        <property name="jobSchedulerDataAccess" ref="jobSchedulerDataAccess"/>
+        <property name="jobUtils" ref="jobUtils"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="newsManager" ref="newsManagerNew"/>
+    </bean>
+
+    <bean id="securityConfigDataManager" class="com.dfn.alerts.impl.SecurityConfigDataManager" >
+        <property name="securityConfigDataAccess" ref="securityConfigDataAccess"/>
+    </bean>
+
+    <bean id="webCacheManager" class="com.dfn.alerts.admin.WebCacheManager">
+        <description>Bean definition for Web Cache manger</description>
+        <property name="webCacheDataAccess" ref="webCacheDataAccess"/>
+        <property name="cacheConfig">
+            <description>Configuration Map which contains the information types and field that each page listen to</description>
+            <map key-type="java.lang.String" value-type="java.util.List">
+                &lt;!&ndash;<entry key="HOME_PAGE">&ndash;&gt;
+                &lt;!&ndash;<map key-type="java.lang.String"  value-type="java.lang.String">&ndash;&gt;
+                &lt;!&ndash;<entry key="MFUND" value="CTRY_CODE"/>&ndash;&gt;
+                &lt;!&ndash;<entry key="FINC" value="CTRY_CODE"/>&ndash;&gt;
+                &lt;!&ndash;<entry key="COUN" value="CTRY_CODE"/>&ndash;&gt;
+                &lt;!&ndash;<entry key="INDV" value="RESIDENCY"/>&ndash;&gt;
+                &lt;!&ndash;<entry key="MEDIA" value="CTRY_CODE_LIST"/>&ndash;&gt;
+                &lt;!&ndash;<entry key="NCCPAC" value="EXCHANGE"/>&ndash;&gt;
+                &lt;!&ndash;<entry key="CPAC" value="EXCHANGE"/>&ndash;&gt;
+                &lt;!&ndash;<entry key="CALEVT" value="EXCHANGE"/>&ndash;&gt;
+                &lt;!&ndash;</map>&ndash;&gt;
+                &lt;!&ndash;</entry>&ndash;&gt;
+                <entry key="MACRO_ECONOMY">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="COUN" value="CTRY_CODE"/>  &lt;!&ndash;Value can be set as empty if all the pages for this information type need to be deleted&ndash;&gt;
+                    </map>
+                </entry>
+                <entry key="COUNTRY_PROFILE">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="COUN" value="CTRY_CODE"/>
+                        <entry key="FINC" value="CTRY_CODE"/>
+                        <entry key="INDV" value="RESIDENCY"/>
+                    </map>
+                </entry>
+                <entry key="CORPORATE_ACTION">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="CPAC" value="EXCHANGE,SYMBOL"/>
+                        <entry key="NCCPAC" value="EXCHANGE,SYMBOL"/>
+                    </map>
+                </entry>
+                <entry key="CALENDAR_EVENTS">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="CALEVT" value="EXCHANGE,SYMBOL"/>
+                    </map>
+                </entry>
+                <entry key="EARNINGS">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="EANN" value="EXCHANGE"/>
+                    </map>
+                </entry>
+                <entry key="COMPANY_MANAGEMENT">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="COMGT" value="EXCHANGE,SYMBOL,COMPANY_ID"/>
+                        <entry key="INMGT" value="COMPANY_ID"/>
+                        <entry key="COMGTREP" value="EXCHANGE,SYMBOL,COMPANY_ID"/>
+                    </map>
+                </entry>
+                <entry key="COMPANY_OWNERS">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="OWN_CMP" value="EXCHANGE,SYMBOL,COMPANY_ID"/>
+                        <entry key="FNINAL" value="EXCHANGE,SYMBOL"/>
+                        <entry key="OWN_IND" value="EXCHANGE,SYMBOL,COMPANY_ID"/>
+                    </map>
+                </entry>
+                <entry key="COMPANY_PROFILE">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="CP" value="COMPANY_ID"/>
+                        <entry key="INMGT" value="COMPANY_ID"/>
+                    </map>
+                </entry>
+                <entry key="ESTIMATES">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="BS" value="COMPANY_ID"/>
+                        <entry key="IS" value="COMPANY_ID"/>
+                        <entry key="CF" value="COMPANY_ID"/>
+                    </map>
+                </entry>
+                <entry key="FINANCIAL_COMPARISON">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="BS" value="COMPANY_ID"/>
+                        <entry key="IS" value="COMPANY_ID"/>
+                        <entry key="CF" value="COMPANY_ID"/>
+                    </map>
+                </entry>
+                <entry key="FAIR_VALUE">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="FRVL" value="EXCHANGE,SYMBOL"/>
+                    </map>
+                </entry>
+                <entry key="INSIDER_TRANSACTION">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="INTR" value="EXCHANGE,SYMBOL"/>
+                    </map>
+                </entry>
+                <entry key="INVESTMENTS">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="FNINAL" value="EXCHANGE,SYMBOL"/>
+                        <entry key="SUBS" value="COMPANY_ID"/>
+                    </map>
+                </entry>
+                <entry key="REPORTS">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="FILE" value=""/>  &lt;!&ndash;Value can be set as empty if all the pages for this information type need to be deleted&ndash;&gt;
+                    </map>
+                </entry>
+                <entry key="INVESTOR_TYPES">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="INT_VAL" value="EXCHANGE"/>
+                        <entry key="INT_VAL" value="EXCHANGE"/>
+                        <entry key="INT_VAL" value="EXCHANGE"/>
+                    </map>
+                </entry>
+                <entry key="IPO">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="IPO" value=""/>
+                    </map>
+                </entry>
+                <entry key="KPI">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="KPI" value="EXCHANGE,SYMBOL"/>
+                    </map>
+                </entry>
+                <entry key="FIXED_INCOME">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="FINC" value=""/>
+                        &lt;!&ndash;<entry key="STK" value=""/> &ndash;&gt; &lt;!&ndash;TODO :: Need to check with sanjeev&ndash;&gt;
+                    </map>
+                </entry>
+                <entry key="BOND_PROFILE">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="FINC" value="EXCHANGE,SYMBOL"/>
+                        &lt;!&ndash;<entry key="STK" value=""/> &ndash;&gt; &lt;!&ndash;TODO :: Need to check with sanjeev&ndash;&gt;
+                    </map>
+                </entry>
+                <entry key="FUNDS">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="MFUND" value=""/>
+                        &lt;!&ndash;<entry key="STK" value=""/> &ndash;&gt; &lt;!&ndash;TODO :: Need to check with sanjeev&ndash;&gt;
+                    </map>
+                </entry>
+                <entry key="FUND_PROFILE">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="MFUND" value="EXCHANGE,SYMBOL"/>
+                        &lt;!&ndash;<entry key="STK" value=""/> &ndash;&gt; &lt;!&ndash;TODO :: Need to check with sanjeev&ndash;&gt;
+                    </map>
+                </entry>
+                <entry key="FUND_ACTION">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="MFUND" value="EXCHANGE,SYMBOL"/>
+                        &lt;!&ndash;<entry key="STK" value=""/> &ndash;&gt; &lt;!&ndash;TODO :: Need to check with sanjeev&ndash;&gt;
+                    </map>
+                </entry>
+                <entry key="FUND_INVESTMENT">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="FNINAL" value="EXCHANGE,SYMBOL"/>
+                        &lt;!&ndash;<entry key="STK" value=""/> &ndash;&gt; &lt;!&ndash;TODO :: Need to check with sanjeev&ndash;&gt;
+                    </map>
+                </entry>
+                <entry key="FUND_PERFORMANCE">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="MFUND" value="EXCHANGE,SYMBOL"/>
+                        &lt;!&ndash;<entry key="STK" value=""/> &ndash;&gt; &lt;!&ndash;TODO :: Need to check with sanjeev&ndash;&gt;
+                    </map>
+                </entry>
+                &lt;!&ndash;
+                <entry key="INDEX_DETAIL">
+                    <map key-type="java.lang.String"  value-type="java.lang.String">
+                        <entry key="EXCHG" value="EXCHANGE"/>
+                    </map>
+                </entry>&ndash;&gt;
+            </map>
+        </property>
+    </bean>
+
+
+    &lt;!&ndash; Data access layer dependency&ndash;&gt;
+
+    <bean name="springPerformanceMonitorInterceptor"
+          class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor">
+        <description>Built in spring interceptor/ only for testing</description>
+        <property name="hideProxyClassNames" value="true"/>
+    </bean>
+
+
+    <bean name="appConfigDataManager" class="com.dfn.alerts.impl.DatabaseAppConfigDataManager">
+        <property name="databaseAppConfigDataAccess" ref="databaseAppConfigDataAccess"/>
+    </bean>
+
+
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames">
+            <list>
+                &lt;!&ndash;<value>*Controller</value>&ndash;&gt;
+                <value>*DataAccess</value>
+                <value>imdbFundamentalDAO</value>
+                <value>imdbMetaDataDAO</value>
+                <value>imdbAdminDAO</value>
+                <value>imdbTickerSnapshotDAO</value>
+            </list>
+        </property>
+        <property name="proxyTargetClass" value="true"/>
+        <property name="interceptorNames">
+            <list>
+                &lt;!&ndash;<value>loggingInterceptor</value>&ndash;&gt;
+                &lt;!&ndash;<value>springPerformanceMonitorInterceptor</value>&ndash;&gt;
+            </list>
+        </property>
+    </bean>
+
+    <bean name="fundInvestmentAllocationsManager" class="com.dfn.alerts.impl.FundInvestmentAllocationsManager">
+        <description>Bean definition for Fund Investment manager</description>
+        <property name="dataAccess" ref="fundInvestmentAllocationsDataAccess"/>
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+    </bean>
+
+
+    <bean id="userRequestsTracker" class="com.dfn.alerts.audit.UserRequestsTrackerImpl">
+        <property name="userRequestTrackerDataAccess" ref="requestTrackerDataAccess" />
+    </bean>
+
+    <bean name="ipoManager" class="com.dfn.alerts.impl.IPOManager">
+        <description>Bean definition for IPO Manager</description>
+        <property name="ipoDataAccess" ref="ipoDataAccess"/>
+    </bean>
+
+    <bean name="fundRatiosManager" class="com.dfn.alerts.impl.FundRatiosManager">
+        <description>Bean definition for fund ratio Manager</description>
+        <property name="dataAccess" ref="fundRatiosDataAccess"/>
+    </bean>
+
+    <bean name="regressionManager" class="com.dfn.alerts.impl.RegressionManager">
+        <description>Bean definition for regression Manager</description>
+        <property name="dataAccess" ref="regressionDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="priceDataAccess" ref="multiSymbolPriceHistoryDataAccess"/>
+    </bean>
+
+    <bean name="currencyRatesUpdateManager" class="com.dfn.alerts.impl.CurrencyRatesUpdateManager">
+        <description> Update Currency Rates for give repeat interval</description>
+        <property name="systemDataManager" ref="systemDataManager"/>
+        <property name="masterDataManager" ref="masterDataManager"/>
+    </bean>
+
+    <bean id="topNewsDataUpdater" class="com.dfn.alerts.impl.dataUpdate.nodes.TopNewsDataUpdater">
+        <property name="topNewsManager" ref="topNewsNotificationUpdateManager"/>
+    </bean>
+
+
+    <bean name="companySearchManager" class="com.dfn.alerts.impl.CompanySearchManager">
+        <description>Bean definition for Corporate Actions manager</description>
+        <property name="companySearchDataAccess" ref="companySearchDataAccess"/>
+    </bean>
+
+    <bean id="mixNotificationDataUpdater" class="com.dfn.alerts.impl.dataUpdate.cluster.MIXNotificationDataUpdater">
+        <property name="notificationDataAccess" ref="notificationDataAccess" />
+        <property name="systemDataManager" ref="systemDataManager" />
+        <property name="noOfNotificationRequestsForOneLog" value="4"/>
+        <property name="informationTypes"
+                  value="STK,FRVL,INTR,CPAC,NCCPAC,CALEVT,COMGT,INMGT,COMGTREP,OWN_IND,OWN_CMP,FNINAL,EANN,IS,BS,CF,FR,MFUND,FNFCRG,FNBMK,INDV,SUBS,COUN,MEDIA,FINC,CITY,EXCHG,IPO,MA,KPI,INV_NAT,INV_VAL,INV_TYPE,FILE,CPCLS,UPDT_FREQ,FNNVFQ,FNELG,CP,NEWS_TOP,OWLM_STK,OWLM_VAL,OWLM_SER,OWLM_BLKV"/>
+        <property name="initialTransactionId" value="${system.notification.topNews.initialTransactionId}"/>
+        <property name="gson" ref="gson"/>
+        <property name="notificationListeners">
+            <map key-type="java.lang.String" value-type="java.util.List">
+                <entry key="CP">
+                    <list>
+                        <ref bean="masterDataManager"/>
+                        <ref bean="companySearchManager"/>
+                    </list>
+                </entry>
+                <entry key="FILE">
+                    <list>
+                        <ref bean="masterDataManager"/>
+                    </list>
+                </entry>
+                <entry key="FRVL">
+                    <list>
+                        <ref bean="fairValuesManager"/>
+                    </list>
+                </entry>
+                <entry key="INTR">
+                    <list>
+                        <ref bean="insiderTransactionManager"/>
+                        &lt;!&ndash;<ref bean="individualManager"/>&ndash;&gt;
+                    </list>
+                </entry>
+                <entry key="CPAC">
+                    <list>
+                        <ref bean="corporateActionsManager"/>
+                    </list>
+                </entry>
+                <entry key="NCCPAC">
+                    <list>
+                        <ref bean="corporateActionsManager"/>
+                    </list>
+                </entry>
+                <entry key="CALEVT">
+                    <list>
+                        <ref bean="calendarEventsManager"/>
+                    </list>
+                </entry>
+                <entry key="COMGT">
+                    <list>
+                        <ref bean="companyManagementManager"/>
+                    </list>
+                </entry>
+                <entry key="INMGT">
+                    <list>
+                        <ref bean="companyManagementManager"/>
+                    </list>
+                </entry>
+                <entry key="COMGTREP">
+                    <list>
+                        <ref bean="companyManagementManager"/>
+                    </list>
+                </entry>
+                <entry key="OWN_IND">
+                    <list>
+                        <ref bean="companyOwnersManager"/>
+                        <ref bean="individualManager"/>
+                        <ref bean="relatedInstrumentManager"/>
+                    </list>
+                </entry>
+                <entry key="OWN_CMP">
+                    <list>
+                        <ref bean="companyOwnersManager"/>
+                        <ref bean="individualManager"/>
+                        <ref bean="relatedInstrumentManager"/>
+                    </list>
+                </entry>
+                <entry key="FNINAL">
+                    <list>
+                        <ref bean="companyOwnersManager"/>
+                        <ref bean="fundManager"/>
+                        <ref bean="investmentsManager"/>
+                        <ref bean="fundInvestmentAllocationsManager"/>
+                    </list>
+                </entry>
+                <entry key="EANN">
+                    <list>
+                        <ref bean="earningAnnouncementManager"/>
+                    </list>
+                </entry>
+                <entry key="IS">
+                    <list>
+                        <ref bean="financialDataManager"/>
+                        <ref bean="financialAnalystManager"/>
+                    </list>
+                </entry>
+                <entry key="BS">
+                    <list>
+                        <ref bean="financialDataManager"/>
+                        <ref bean="financialAnalystManager"/>
+                    </list>
+                </entry>
+                <entry key="CF">
+                    <list>
+                        <ref bean="financialDataManager"/>
+                        <ref bean="financialAnalystManager"/>
+                    </list>
+                </entry>
+                <entry key="FR">
+                    <list>
+                        <ref bean="financialDataManager"/>
+                    </list>
+                </entry>
+                <entry key="MFUND">
+                    <list>
+                        <ref bean="fundManager"/>
+                        <ref bean="fundRatiosManager"/>
+                    </list>
+                </entry>
+                <entry key="FNFCRG">
+                    <list>
+                        <ref bean="fundManager"/>
+                    </list>
+                </entry>
+                <entry key="FNBMK">
+                    <list>
+                        <ref bean="fundManager"/>
+                        <ref bean="fundRatiosManager"/>
+                    </list>
+                </entry>
+                <entry key="INDV">
+                    <list>
+                        <ref bean="individualManager"/>
+                    </list>
+                </entry>
+                <entry key="SUBS">
+                    <list>
+                        <ref bean="investmentsManager"/>
+                        <ref bean="relatedInstrumentManager"/>
+                    </list>
+                </entry>
+                <entry key="COUN">
+                    <list>
+                        <ref bean="macroEconomyManager"/>
+                    </list>
+                </entry>
+                <entry key="MEDIA">
+                    <list>
+                        <ref bean="multimediaManager"/>
+                    </list>
+                </entry>
+                <entry key="FINC">
+                    <list>
+                        <ref bean="treasuryBillsManager"/>
+                        <ref bean="fundRatiosManager"/>
+                    </list>
+                </entry>
+                <entry key="CITY">
+                    <list>
+                        <ref bean="unlistedCompaniesManager"/>
+                    </list>
+                </entry>
+                <entry key="KPI">
+                    <list>
+                        <ref bean="kpiManager"/>
+                    </list>
+                </entry>
+                <entry key="INV_NAT">
+                    <list>
+                        <ref bean="investorTypesManager"/>
+                    </list>
+                </entry>
+                <entry key="INV_VAL">
+                    <list>
+                        <ref bean="investorTypesManager"/>
+                    </list>
+                </entry>
+                <entry key="INV_TYPE">
+                    <list>
+                        <ref bean="investorTypesManager"/>
+                    </list>
+                </entry>
+                <entry key="UPDT_FREQ">
+                    <list>
+                        <ref bean="investorTypesManager"/>
+                    </list>
+                </entry>
+                <entry key="FNELG">
+                    <list>
+                        <ref bean="fundManager"/>
+                    </list>
+                </entry>
+                <entry key="FNNVFQ">
+                    <list>
+                        <ref bean="fundManager"/>
+                    </list>
+                </entry>
+                <entry key="OWLM_STK">
+                    <list>
+                        <ref bean="ownershipLimitsManager"/>
+                    </list>
+                </entry>
+                <entry key="OWLM_VAL">
+                    <list>
+                        <ref bean="ownershipLimitsManager"/>
+                    </list>
+                </entry>
+                <entry key="OWLM_SER">
+                    <list>
+                        <ref bean="ownershipLimitsManager"/>
+                    </list>
+                </entry>
+                <entry key="MA">
+                    <list>
+                        <ref bean="mergingAcquisitionManager"/>
+                    </list>
+                </entry>
+                <entry key="OWLM_BLKV">
+                    <list>
+                        <ref bean="ownershipLimitsManager"/>
+                    </list>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+
+    <bean id="newsIMDBUpdateManager" class="com.dfn.alerts.impl.jobs.nodes.NewsIMDBUpdateManager">
+         <property name="newNewsDataAccess" ref="newsDataAccess"/>
+         <property name="settings" ref="masterDataAccess"/>
+    </bean>
+
+    <bean id="userEmailNotificationSender" class="com.dfn.alerts.impl.notification.email.UserEmailNotificationSender">
+        <property name="userDetailsDataAccess" ref="userDetailsDataAccess" />
+        <property name="trialExpDays" value="${user.accountExpire.reminder.notification.trial.days}" />
+        <property name="premiumExpDays" value="${user.accountExpire.reminder.notification.premium.days}" />
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        <property name="emailRetryCount" value="${system.email.retry.max.count}"/>
+        <property name="jobSchedulerDataAccess" ref="jobSchedulerDataAccess"/>
+        <property name="emailNotificationServer" ref="emailSender"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="fromEmailSupport" value="${dfn.mail.smtp.fromEmail}"/>
+        <property name="fromResetEmailSupport" value="${dfn.resetPasswordMail.smtp.fromEmail}"/>
+        <property name="fromNameSupport" value="${dfn.mail.smtp.fromName}"/>
+    </bean>
+
+    <bean id="salesTeamEmailNotificationSender" class="com.dfn.alerts.impl.notification.email.SalesTeamEmailNotificationSender">
+        <property name="userDetailsDataAccess" ref="userDetailsDataAccess" />
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        <property name="userNotificationDataAccess" ref="userNotificationDataAccess"/>
+        <property name="emailNotificationServer" ref="emailSender"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="fromEmailSupport" value="${dfn.mail.smtp.fromEmail}"/>
+        <property name="fromResetEmailSupport" value="${dfn.resetPasswordMail.smtp.fromEmail}"/>
+        <property name="fromNameSupport" value="${dfn.mail.smtp.fromName}"/>
+    </bean>
+
+
+    <bean name="cJobListener" class="com.dfn.alerts.service.impl.jobs.ClusterJobListener">
+        <property name="nodeId" value="${dfn.plus.server.node}"/>
+    </bean>
+
+    <bean id="clusterJobManager" class="com.dfn.alerts.impl.jobs.cluster.ClusterJobManager">
+        <property name="mixNotificationDataUpdater" ref="mixNotificationDataUpdater"/>
+        <property name="userEmailNotification" ref="userEmailNotificationSender"/>
+        <property name="salesTeamEmailNotificationSender" ref="salesTeamEmailNotificationSender"/>
+        <property name="fundSnapshotUpdateManager" ref="fundSnapshotUpdateManager"/>
+        <property name="indexSnapshotUpdateManager" ref="indexSnapshotUpdateManager"/>
+        <property name="jobUtils" ref="jobUtils"/>
+        <property name="systemDataManager" ref="systemDataManager"/>
+        <property name="currencyRatesUpdateManager" ref="currencyRatesUpdateManager"/>
+        &lt;!&ndash;<property name="newsManager" ref="newsManager"/>&ndash;&gt;
+        <property name="newsDataUpdater" ref="clusterNewsUpdater"/>
+        <property name="announcementUpdater" ref="clusterAnnouncementManager"/>
+        <property name="userSMSNotification" ref="userSMSNotificationSender"/>
+        <property name="campaignManager" ref="campaignManager"/>
+        <property name="emailNotification" ref="emailSender"/>
+        <property name="releaseNoteManager" ref="releaseNoteManager"/>
+        <property name="financialAnalystManager" ref="financialAnalystManager"/>
+        <property name="financialSegmentDataManager" ref="financialSegmentManager"/>
+        <property name="fundTickerUpdateManager" ref="fundTickerUpdateManager"/>
+        <property name="newsEODUpdater" ref="clusterNewsUpdater"/>
+    </bean>
+
+    <bean id="nodesJobManager" class="com.dfn.alerts.impl.jobs.nodes.NodesJobManager">
+        <property name="topNewsDataUpdater" ref="topNewsDataUpdater"/>
+        &lt;!&ndash;<property name="newsIMDBUpdateManager" ref="newsIMDBUpdateManager"/>&ndash;&gt;
+        <property name="newsDataUpdater" ref="nodeNewsUpdater"/>
+        <property name="newsEODJobExecutor" ref="nodeNewsUpdater"/>
+        <property name="announcementDataUpdater" ref="nodeAnnouncementManager"/>
+        <property name="cacheDataUpdater" ref="cacheDataUpdateManager"/>
+        <property name="announcementEODJobExecutor" ref="nodeAnnouncementManager"/>
+        <property name="solrMiscJobExecutor" ref="solrMiscJobExecutor"/>
+        <property name="jobUtils" ref="jobUtils"/>
+    </bean>
+
+    <bean id="nodeNewsUpdater" class="com.dfn.alerts.impl.dataUpdate.nodes.NewsDataUpdater">
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="newsProvider" ref="oracleNewsProvider"/>
+        <property name="imdbNewsProvider" ref="imdbNewsProvider"/>
+        <property name="newsDBUpdater" ref="imdbNewsUpdater"/>
+        <property name="solrHTTPServer" ref="solrHttpServer"/>
+        <property name="solrRequestGenerator" ref="solrNewsRequestGenerator"/>
+        <property name="useSolr" value="${system.newsSolr.enable}"/>
+    </bean>
+
+    <bean id="clusterNewsUpdater" class="com.dfn.alerts.impl.dataUpdate.cluster.NewsDataUpdater">
+        <property name="masterDataAccess" ref="masterDataAccess"/>
+        <property name="newsProvider" ref="mixNewsProvider"/>
+        <property name="oracleNewsProvider" ref="oracleNewsProvider"/>
+        <property name="newsDBUpdater" ref="oracleNewsUpdater"/>
+    </bean>
+
+    <bean name="nodesDependantJobManager" class="com.dfn.alerts.impl.jobs.nodes.NodesDependantJobManager">
+        <property name="fundSnapshotIMDBDependantJob" ref="fundSnapshotIMDBDependantJob"/>
+        <property name="indexSnapshotIMDBDependantJob" ref="indexSnapshotIMDBDependantJob"/>
+        <property name="eodIMDBDependantJob" ref="eodIMDBDependantJob"/>
+        <property name="dataNotificationIMDBDependantJob" ref="dataNotificationIMDBDependantJob"/>
+        <property name="currencyRatesCacheUpdateDependantJob" ref="currencyRatesCacheUpdateDependantJob"/>
+    </bean>
+
+
+    <bean name="dataNotificationIMDBDependantJob" class="com.dfn.alerts.impl.jobs.dependantJobs.DataNotificationIMDBDependantJob" scope="prototype">
+        <property name="fundSnapshotIMDBUpdateManager" ref="fundSnapshotIMDBUpdateManager"/>
+        <property name="jobUtils" ref="jobUtils"/>
+        <property name="systemDataManager" ref="systemDataManager"/>
+        <property name="mixNotificationDataUpdater" ref="mixNotificationDataUpdater"/>
+        <property name="gson" ref="gson"/>
+    </bean>
+
+    <bean name="fundSnapshotIMDBDependantJob" class="com.dfn.alerts.impl.jobs.dependantJobs.FundSnapshotIMDBDependantJob">
+        <property name="jobUtils" ref="jobUtils"/>
+        <property name="systemDataManager" ref="systemDataManager"/>
+        <property name="gson" ref="gson"/>
+        <property name="fundSnapshotIMDBUpdateManager" ref="fundSnapshotIMDBUpdateManager"/>
+    </bean>
+
+    <bean name="indexSnapshotIMDBDependantJob" class="com.dfn.alerts.impl.jobs.dependantJobs.IndexSnapshotIMDBDependantJob">
+        <property name="jobUtils" ref="jobUtils"/>
+        <property name="gson" ref="gson"/>
+        <property name="systemDataManager" ref="systemDataManager"/>
+        <property name="indexSnapshotIMDBUpdateManager" ref="indexSnapshotIMDBUpdateManager"/>
+    </bean>
+
+    <bean name="eodIMDBDependantJob" class="com.dfn.alerts.impl.jobs.dependantJobs.EodIMDBDependantJob" scope="prototype">
+        <property name="jobUtils" ref="jobUtils"/>
+        <property name="systemDataManager" ref="systemDataManager"/>
+        <property name="gson" ref="gson"/>
+    </bean>
+
+    <bean name="currencyRatesCacheUpdateDependantJob" class="com.dfn.alerts.impl.jobs.dependantJobs.CurrencyRatesCacheUpdateDependantJob" scope="prototype">
+        <property name="jobUtils" ref="jobUtils"/>
+        <property name="masterDataManager" ref="masterDataManager"/>
+        <property name="gson" ref="gson"/>
+    </bean>
+
+    <bean name="fundSnapshotUpdateManager" class="com.dfn.alerts.impl.jobs.manager.FundSnapshotUpdateManager">
+        <description> Update fund snapshot for give repeat interval</description>
+        <property name="systemDataManager" ref="systemDataManager"/>
+    </bean>
+
+    <bean name="fundSnapshotIMDBUpdateManager" class="com.dfn.alerts.impl.jobs.manager.FundSnapshotIMDBUpdateManager" scope="prototype">
+        <property name="systemDataManager"  ref="systemDataManager"/>
+    </bean>
+
+    <bean name="indexSnapshotUpdateManager" class="com.dfn.alerts.impl.jobs.manager.IndexSnapshotUpdateManager">
+        <description> Update fund snapshot for give repeat interval</description>
+        <property name="systemDataManager" ref="systemDataManager"/>
+    </bean>
+
+    <bean name="indexSnapshotIMDBUpdateManager" class="com.dfn.alerts.impl.jobs.manager.IndexSnapshotIMDBUpdateManager" scope="prototype">
+        <property name="systemDataManager"  ref="systemDataManager"/>
+    </bean>
+
+    <bean name="financialAnalystManager" class="com.dfn.alerts.impl.FinancialAnalystManager">
+        <property name="financialAnalystDataAccess" ref="financialAnalystDataAccess"/>
+        <property name="financialDataAccess" ref="financialDataAccess"/>
+        <property name="tickerDataAccess" ref="tickerDataAccess"/>
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="individualDataAccess" ref="individualDataAccess"/>
+        <property name="userInteractionDataAccess" ref="userInteractionDataAccess"/>
+        <property name="gson" ref="gson"/>
+        <property name="lang" value="EN"/>
+        <property name="emailSubject" value="Financials of {0} is available now"/>
+        <property name="financialPeriodDesc" value="{0, number, #} Q{1}"/>
+        <property name="utmCampaign" value="AN_Notif"/>
+        <property name="utmMediumPrefix" value="ANN_"/>
+        <property name="utmSourcePrefix" value="ANN_"/>
+    </bean>
+
+    <bean name="contactUsManager" class="com.dfn.alerts.impl.ContactUsManager">
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="externalDataManager" ref="externalDataManager"/>
+        <property name="contactUsDataAccess" ref="contactUsDataAccess"/>
+        <property name="fromEmailSupport" value="${dfn.mail.smtp.fromEmail}"/>
+        <property name="fromNameSupport" value="${dfn.mail.smtp.fromName}"/>
+        <property name="requestTrialSubject" value="${dfn.plus.product.support.request.trial.from}"/>
+        <property name="requestFeedbackSubject" value="${dfn.plus.product.support.feedback.from}"/>
+    </bean>
+
+    <bean name="jobUtils" class="com.dfn.alerts.utils.JobUtils">
+        <property name="jobSchedulerDataAccess" ref="jobSchedulerDataAccess"/>
+        <property name="nodeId" value="${dfn.plus.server.node}"/>
+        <property name="dependantJobParentJob">
+            <map key-type="java.lang.String" value-type="java.lang.String">
+                <entry key="QRTS_NOTIFICATION_IMDB"  value="QRTS_NOTIFICATION_CENTRAL_TO_LOCAL_DB"/>
+                <entry key="QRTS_FUND_SNAPSHOT_IMDB" value="QRTS_FUND_SNAPSHOT_CENTRAL_TO_LOCAL_DB"/>
+                <entry key="QRTS_INDEX_SNAPSHOT_IMDB" value="QRTS_INDEX_SNAPSHOT_CENTRAL_TO_LOCAL_DB"/>
+                <entry key="EOD_LOCALDB_TO_IMDB" value="EOD_CENTRAL_TO_LOCAL_DB"/>
+                <entry key="QRTS_CURRENCY_RATES_CACHE" value="QRTS_CURRENCY_RATES"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean name="dependantJobManagerDB" class="com.dfn.alerts.impl.jobs.manager.DependantJobManagerDB">
+        <property name="jobSchedulerDataAccess" ref="jobSchedulerDataAccess"/>
+    </bean>
+
+    <bean name="userInteractionManager" class="com.dfn.alerts.impl.UserInteractionManager">
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="userDetailsDataAccess" ref="userDetailsDataAccess"/>
+        <property name="userInteractionDataAccess" ref="userInteractionDataAccess"/>
+    </bean>
+
+    <bean name="cacheDataHandlerManager" class="com.dfn.alerts.impl.CacheDataHandlerManager">
+        <property name="redisCacheManager" ref="jedisCache"/>
+    </bean>
+
+    <bean id="userSMSNotificationSender" class="com.dfn.alerts.impl.notification.sms.UserSMSNotificationSender">
+        <property name="smsDataAccess" ref="SMSDataAccess" />
+        <property name="masterDataAccess" ref="masterDataAccess" />
+    </bean>
+
+    <bean id="companyScreenerManager" class="com.dfn.alerts.impl.CompanyScreenerManager">
+        <property name="companyScreenerDataAccess" ref="companyScreenerDataAccess" />
+        <property name="masterDataAccess" ref="masterDataAccess" />
+    </bean>
+
+    <bean id = "companyFinancialManager" class = "com.dfn.alerts.impl.CompanyFinancialManager">
+        <property name="companyFinancialDataAccess" ref="companyFinancialDataAccess"/>
+        <property name="financialDataAccess" ref="financialDataAccess"/>
+        <property name="clientRequestGenerator" ref="clientRequestGenerator"/>
+        <property name="gson" ref="gson"/>
+    </bean>
+
+    <bean id = "solrMiscJobExecutor" class="com.dfn.alerts.impl.dataUpdate.nodes.SolrMiscJobExecutor">
+        <description>This is a job executor(All jobs except update cores) for solr</description>
+        <property name="systemDataAccess" ref="systemDataAccess"/>
+        <property name="emailNotificationServer" ref="emailSender"/>
+        <property name="emailTemplateGenerator" ref="emailTemplateGenerator"/>
+        <property name="emailDataAccess" ref="emailDataAccess"/>
+        <property name="serverNode" value="${dfn.plus.server.node}"/>
+        <property name="solrRestartCommand" value="${system.solr.restartCommand}"/>
+    </bean>
+
+    <bean id="purchaseManager" class="com.dfn.alerts.impl.PurchaseManager">
+        <property name="purchaseDataAccess" ref="purchaseDataAccess"/>
+        <property name="userDetailsDataAccess" ref="userDetailsDataAccess"/>
+        <property name="reportDataAccess" ref="reportDataAccess"/>
+    </bean>
+-->
+
+    <import resource="classpath*:/alert-data-access-bean.xml"/>
+
+    <!--<import resource="classpath*:/info-notification-data-access-bean.xml"/>-->
+
+</beans>

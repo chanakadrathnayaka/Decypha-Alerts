@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<cache:annotation-driven cache-manager="methodCacheManager" />-->
+
+    <!--<bean id="methodCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcache"/>
+    </bean>
+
+    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="shared" value="true"/>
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+    </bean>-->
+
+    <bean name="bigMemoryCacheImpl" class="com.dfn.alerts.dataaccess.impl.BigMemoryCacheImpl">
+        <constructor-arg name="localHeap" value="128"/>
+        <constructor-arg name="localOffHeap" value="32"/>
+        <constructor-arg name="timeToLive" value="60"/>
+        <constructor-arg name="timeToIdle" value="60"/>
+        <property name="cacheConfigs" ref="cacheConfigs"/>
+        <property name="defaultCacheInMillis" value="21600"/>
+        <!--6 Hour-->
+    </bean>
+
+<!--
+    <bean name="memCache" class="com.dfn.alerts.dataaccess.impl.MemCacheImpl">
+        <constructor-arg name="host" value="${dfn.memcache.ip}"/>
+        <constructor-arg name="port" value="${dfn.memcache.port}"/>
+        <property name="cacheConfigs" ref="cacheConfigs"/>
+    </bean>-->
+
+    <!--
+         this is to work with CM
+         use this cmCacheMgr for CM specific functions. This will help to maintain consistency all over the application
+    -->
+    <alias name="bigMemoryCacheImpl" alias="cmCacheMgr"/>
+
+
+    <bean id="cacheConfigs" class="com.dfn.alerts.dataaccess.config.CacheConfigs">
+        <property name="cacheConfigMap">
+            <map>
+                <entry key="snapshotCacheConfig" value-ref="snapshotCacheConfig"/>
+                <entry key="exchangeDataCacheConfig" value-ref="exchangeDataCacheConfig"/>
+                <entry key="newsSearchDataAccessCacheConfig" value-ref="newsSearchDataAccessCacheConfig"/>
+                <entry key="defaultCacheConfig" value-ref="defaultCacheConfig"/>
+                <entry key="priceChartIntradayCacheConfig" value-ref="priceChartIntradayCacheConfig"/>
+                <entry key="priceChartHistoryCacheConfig" value-ref="priceChartHistoryCacheConfig"/>
+                <entry key="topStockCacheConfig" value-ref="topStockCacheConfig"/>
+                <entry key="calendarEventsCacheConfig" value-ref="calendarEventsCacheConfig"/>
+                <entry key="mediaCacheConfig" value-ref="mediaCacheConfig"/>
+                <entry key="bondsCacheConfig" value-ref="bondsCacheConfig"/>
+                <entry key="unlistedCompanyCacheConfig" value-ref="unlistedCompanyCacheConfig"/>
+                <entry key="earningsAnnouncementCacheConfig" value-ref="earningsAnnouncementCacheConfig"/>
+                <entry key="ownersCacheConfig" value-ref="ownersCacheConfig"/>
+                <entry key="peerCompaniesCacheConfig" value-ref="peerCompaniesCacheConfig"/>
+                <entry key="companyManagementCacheConfig" value-ref="companyManagementCacheConfig"/>
+                <entry key="corporateActionsCacheConfig" value-ref="corporateActionsCacheConfig"/>
+                <entry key="individualCacheConfig" value-ref="individualCacheConfig"/>
+                <entry key="companyProfileCacheConfig" value-ref="companyProfileCacheConfig"/>
+                <entry key="fundsCacheConfig" value-ref="fundsCacheConfig"/>
+                <entry key="fairValuesCacheConfig" value-ref="fairValuesCacheConfig"/>
+                <entry key="investmentCacheConfig" value-ref="investmentCacheConfig"/>
+                <entry key="macroEconomyCacheConfig" value-ref="macroEconomyCacheConfig"/>
+                <entry key="insiderTransactionCacheConfig" value-ref="insiderTransactionCacheConfig"/>
+                <entry key="newsDetailsCacheConfig" value-ref="newsDetailsCacheConfig"/>
+                <entry key="advancedSearchCacheConfig" value-ref="advancedSearchCacheConfig"/>
+                <entry key="metaDataCacheConfig" value-ref="metaDataCacheConfig"/>
+                <entry key="reportsCacheConfig" value-ref="reportsCacheConfig"/>
+                <entry key="relatedInstrumentsCacheConfig" value-ref="relatedInstrumentsCacheConfig"/>
+                <entry key="financialCacheConfig" value-ref="financialCacheConfig"/>
+                <entry key="avgRatioCacheConfig" value-ref="avgRatioCacheConfig"/>
+                <entry key="financialPageCacheConfig" value-ref="financialPageCacheConfig"/>
+                <entry key="fundPositionCacheConfig" value-ref="fundPositionCacheConfig"/>
+                <entry key="stockMarketCacheConfig" value-ref="stockMarketCacheConfig"/>
+                <entry key="kpiCacheConfig" value-ref="kpiCacheConfig"/>
+                <entry key="ownershipLimitsCacheConfig" value-ref="ownershipLimitsCacheConfig"/>
+                <entry key="fundInvestmentsCacheConfig" value-ref="fundInvestmentsCacheConfig"/>
+                <entry key="fundRatiosCacheConfig" value-ref="fundRatiosCacheConfig"/>
+                <entry key="topNewsCacheConfig" value-ref="topNewsCacheConfig" />
+                <entry key="companySearchCacheConfig" value-ref="companySearchCacheConfig" />
+                <entry key="regressionCacheConfig" value-ref="regressionCacheConfig" />
+                <entry key="multiSymbolPriceHistoryCacheConfig" value-ref="multiSymbolPriceHistoryCacheConfig" />
+                <entry key="segmentCacheConfig" value-ref="segmentCacheConfig"/>
+                <entry key="maCacheConfig" value-ref="maCacheConfig"/>
+                <entry key="announcementCacheConfig" value-ref="announcementCacheConfig"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="defaultCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="60"/>
+        <property name="timeToLive" value="60"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="snapshotCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="60"/>
+        <property name="timeToLive" value="60"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="exchangeDataCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="0"/>
+        <property name="timeToLive" value="0"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="newsSearchDataAccessCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="0"/>
+        <property name="timeToLive" value="200000"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="priceChartIntradayCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="30"/>
+        <property name="timeToLive" value="30"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="priceChartHistoryCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="43200"/>
+        <!--12 -->
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="topStockCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="30"/>
+        <property name="timeToLive" value="30"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="calendarEventsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="mediaCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="bondsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="unlistedCompanyCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="ownersCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="peerCompaniesCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="companyManagementCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="earningsAnnouncementCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="corporateActionsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="individualCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="companyProfileCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="macroEconomyCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="insiderTransactionCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="metaDataCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="financialCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="avgRatioCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map for 24 hours-->
+    <bean id="financialPageCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="86400"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="86400"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="fundsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="fairValuesCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="investmentCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="newsDetailsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="900"/>
+        <!--15 mins-->
+        <property name="timeToLive" value="900"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="advancedSearchCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="reportsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="1800"/>
+        <!--1/2 Hour-->
+        <property name="timeToLive" value="1800"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="relatedInstrumentsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="treasuryBillsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="stockMarketCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="ownershipLimitsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="43200"/>
+        <!--12 Hours-->
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="fundInvestmentsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="43200"/>
+        <!--12 Hours-->
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="kpiCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="43200"/>
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="investorTypesValuesCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="43200"/>
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="fixedIncomeCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="86400"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="86400"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="fundPositionCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="3600"/>
+        <!--1 Hour-->
+        <property name="timeToLive" value="3600"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="topNewsCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <!--30 Minutes-->
+        <property name="timeToIdle" value="300"/>
+        <!--30 Minutes-->
+        <property name="timeToLive" value="300"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="companySearchCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <!--1 hour-->
+        <property name="timeToIdle" value="3600"/>
+        <!--12 hours-->
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+  <!--  <bean id="cacheEventListener" class="com.dfn.alerts.dataaccess.impl.CacheEventListenerImpl">
+        <constructor-arg name="pCacheManager" ref="bigMemoryCacheImpl"/>
+    </bean>-->
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="fundRatiosCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="43200"/>
+        <!--12 Hours-->
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <bean id="regressionCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="43200"/>
+        <!--12 Hours-->
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <bean id="multiSymbolPriceHistoryCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="43200"/>
+        <!--12 Hours-->
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <bean id="segmentCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <property name="timeToIdle" value="43200"/>
+        <!--12 Hours-->
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <bean id="maCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <!--12 Hours-->
+        <property name="timeToIdle" value="43200"/>
+        <!--12 Hours-->
+        <property name="timeToLive" value="43200"/>
+    </bean>
+
+    <!-- Configure and add to cacheConfigs map-->
+    <bean id="announcementCacheConfig" class="com.dfn.alerts.dataaccess.config.CacheConfig">
+        <description>The amount of time for the element to live, in seconds. 0 indicates unlimited.</description>
+        <!--5 minutes-->
+        <property name="timeToIdle" value="300"/>
+        <!--5 minutes-->
+        <property name="timeToLive" value="300"/>
+    </bean>
+</beans>

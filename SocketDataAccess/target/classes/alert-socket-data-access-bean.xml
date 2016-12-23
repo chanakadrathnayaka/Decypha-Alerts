@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans [
+        <!ELEMENT beans (bean)*>
+        <!ATTLIST beans
+                xmlns CDATA #REQUIRED
+                xmlns:xsi CDATA #REQUIRED
+                xsi:schemaLocation CDATA #REQUIRED>
+        <!ELEMENT bean (property|description|constructor-arg)*>
+        <!ATTLIST bean
+                abstract CDATA #IMPLIED
+                class CDATA #REQUIRED
+                name CDATA #REQUIRED
+                parent CDATA #IMPLIED>
+        <!ELEMENT property (#PCDATA)>
+        <!ATTLIST property
+                name CDATA #REQUIRED
+                ref CDATA #IMPLIED
+                value CDATA #IMPLIED>
+        <!ELEMENT description (#PCDATA)>
+        <!ELEMENT constructor-arg (#PCDATA)>
+        <!ATTLIST constructor-arg
+                name CDATA #REQUIRED
+                ref CDATA #REQUIRED>
+        ]>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="socketFactory" class="com.dfn.alerts.dataaccess.utils.SocketFactory"/>
+
+    <bean name="dataRetriever" class="com.dfn.alerts.dataaccess.impl.DataRetriever" abstract="true"/>
+
+<!--    <bean name="fundamentalCacheServer" class="com.dfn.alerts.dataaccess.impl.FundamentalCacheServerImpl"
+          parent="dataRetriever">
+        <property name="fundamentalServerIP" value="${dfn.fundamental.ip}"/>
+        <property name="fundamentalServerIPFailOverIP" value="${dfn.fundamental.failover.ip}"/>
+        <property name="fundamentalServerPort" value="${dfn.fundamental.port}"/>
+        <property name="fundamentalServerFailOverPort" value="${dfn.fundamental.failover.port}"/>
+        <property name="socketTimeOut" value="${dfn.fundamental.timeout}"/>
+        <property name="logPrefix" value="FundamentalCacheServer :: "/>
+    </bean>
+
+    <bean name="dcmsCacheServer" class="com.dfn.alerts.dataaccess.impl.FundamentalCacheServerImpl"
+          parent="dataRetriever">
+        <description>Fundamental service for DCMS</description>
+        <property name="fundamentalServerIP" value="${dfn.dcms.ip}"/>
+        <property name="fundamentalServerPort" value="${dfn.dcms.port}"/>
+        <property name="socketTimeOut" value="${dfn.dcms.timeout}"/>
+        <property name="logPrefix" value="DcmsCacheServer :: "/>
+    </bean>
+
+    <bean name="notificationCacheServer" class="com.dfn.alerts.dataaccess.impl.FundamentalCacheServerImpl"
+          parent="dataRetriever">
+        <description>Fundamental service for Notification</description>
+        <property name="fundamentalServerIP" value="${dfn.notification.ip}"/>
+        <property name="fundamentalServerPort" value="${dfn.notification.port}"/>
+        <property name="socketTimeOut" value="${dfn.notification.timeout}"/>
+        <property name="logPrefix" value="NotificationCacheServer :: "/>
+    </bean>
+
+    <bean name="mixHttpServerReport" class="com.dfn.alerts.dataaccess.impl.MixHttpServerImpl" parent="dataRetriever">
+        <property name="mixURL" value="${dfn.mix.httpServer.report.url}"/>
+        <property name="socketTimeOut" value="${dfn.mix.httpServer.report.timeout}"/>
+        <property name="logPrefix" value="ReportMixHttpServer :: "/>
+    </bean>
+
+    <bean name="mixHttpServerAnnouncement" class="com.dfn.alerts.dataaccess.impl.MixHttpServerImpl"
+          parent="dataRetriever">
+        <property name="mixURL" value="${dfn.mix.httpServer.url}"/>
+        <property name="socketTimeOut" value="${dfn.mix.httpServer.timeout}"/>
+        <property name="logPrefix" value="AnnouncementMixHttpServer :: "/>
+    </bean>
+
+    <bean name="mixHttpServerTopStock" class="com.dfn.alerts.dataaccess.impl.MixHttpServerImpl"
+          parent="dataRetriever">
+        <property name="mixURL" value="${dfn.mix.httpServer.url}"/>
+        <property name="socketTimeOut" value="${dfn.mix.httpServer.timeout}"/>
+        <property name="logPrefix" value="TopStockMixHttpServer :: "/>
+    </bean>-->
+
+    <bean name="mixHttpServer" class="com.dfn.alerts.dataaccess.impl.MixHttpServerImpl" parent="dataRetriever">
+        <property name="mixURL" value="http://ldc-uat.directfn.com/mix2/ClientServiceProvider"/>
+        <property name="requestMethod" value="GET"/>
+        <property name="scheme" value="http"/>
+        <property name="host" value="ldc-uat.directfn.com"/>
+        <property name="resourcePath" value="/mix2/ClientServiceProvider"/>
+    </bean>
+
+    <!--<bean name="zohoServer" class="com.dfn.alerts.dataaccess.impl.MixHttpServerImpl" parent="dataRetriever">
+        <property name="mixURL" value="${zoho.url}"/>
+        <property name="socketTimeOut" value="${zoho.timeout}"/>
+        <property name="logPrefix" value="ZohoServer :: "/>
+    </bean>
+
+    <bean name="mixHttpServerProfile" class="com.dfn.alerts.dataaccess.impl.MixHttpServerImpl" parent="dataRetriever">
+        <property name="mixURL" value="${dfn.mix.httpServer.profile.url}"/>
+        <property name="socketTimeOut" value="${dfn.mix.httpServer.profile.timeout}"/>
+        <property name="logPrefix" value="ProfileServer :: "/>
+        &lt;!&ndash;<property name="requestMethod" value="POST"/>&ndash;&gt;
+    </bean>
+
+    <bean name="mixHttpServerNotification" class="com.dfn.alerts.dataaccess.impl.MixHttpServerImpl"
+          parent="dataRetriever">
+        <property name="mixURL" value="${dfn.mix.httpServer.notification.url}"/>
+        <property name="socketTimeOut" value="${dfn.mix.httpServer.notification.timeout}"/>
+        <property name="logPrefix" value="NotificationServer :: "/>
+    </bean>
+
+    &lt;!&ndash;Common mix server&ndash;&gt;
+    <bean name="mixServer" class="com.dfn.alerts.dataaccess.impl.MixServerImpl" parent="dataRetriever">
+        <property name="mixServerIP" value="-1"/>
+        <property name="mixServerPort" value="-1"/>
+        <property name="socketTimeOut" value="6000"/>
+        <property name="logPrefix" value="MixServer :: "/>
+    </bean>-->
+</beans>
