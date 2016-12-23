@@ -1,7 +1,7 @@
 package com.dfn.alerts.impl.jobs;
 
-import com.dfn.alerts.EarningAnnouncementManager;
 import com.dfn.alerts.dataaccess.orm.impl.earnings.EarningNotification;
+import com.dfn.alerts.impl.EarningsAnnouncementManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.Job;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class EarningNotificationEmailGeneratorJob implements Job {
 
-    private EarningAnnouncementManager earningAnnouncementManager;
+    private EarningsAnnouncementManager earningAnnouncementManager;
 
     private Logger LOG = LogManager.getLogger(EarningNotificationEmailGeneratorJob.class);
 
@@ -27,7 +27,7 @@ public class EarningNotificationEmailGeneratorJob implements Job {
 
 
         ApplicationContext context = new ClassPathXmlApplicationContext("alert-business-bean.xml");
-        earningAnnouncementManager = (EarningAnnouncementManager) context.getBean("earningAnnouncementManager");
+        earningAnnouncementManager = (EarningsAnnouncementManager) context.getBean("earningAnnouncementManager");
 
         if (jobExecutionContext != null) {
             List<EarningNotification> notifications = (List<EarningNotification>) earningAnnouncementManager.searchAlerts();
@@ -35,6 +35,5 @@ public class EarningNotificationEmailGeneratorJob implements Job {
                 System.out.println(notification.getAlertId() + " | " + notification.getStatus() + " | " + notification.getAlertText());
             }
         }
-
     }
 }
